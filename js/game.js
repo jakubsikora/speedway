@@ -9,9 +9,9 @@ var canvas
   , rightHeld
   , keyDown = false
   , currentFrame
-  , FRICTION_FACTOR = 0.02
+  , FRICTION_FACTOR = 0.04
   , TURN_ANGLE = 0.098172
-  , SPEED = 0.35
+  , SPEED = 0.8
   , forward = [0, 0]
   , vel = [0, 0]
   , thrust = false
@@ -53,7 +53,7 @@ function handleImageLoad(e) {
   currentFrame = sprite.currentFrame;
 
   sprite.x = canvas.width / 2;
-  sprite.y = canvas.height / 2;
+  sprite.y = 720;
 
   sprite.scaleX = 2;
   sprite.scaleY = 2;
