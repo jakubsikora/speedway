@@ -1,11 +1,27 @@
 var canvas
   , stage
+  , line
   , img = new Image()
   , sprite
+  , upHeld
+  , downHeld
   , leftHeld
   , rightHeld
   , keyDown = false
-  , currentFrame;
+  , currentFrame
+  , FRICTION_FACTOR = 0.02
+  , TURN_ANGLE = 0.098172
+  , SPEED = 0.35
+  , forward = [0, 0]
+  , vel = [0, 0]
+  , thrust = false
+  , angle = 0
+  , angleVel = 0;
+
+
+function angleToVector(newAngle) {
+  return [Math.cos(newAngle), Math.sin(newAngle)];
+}
 
 function init() {
   setEventHandlers();
@@ -43,16 +59,36 @@ function handleImageLoad(e) {
   sprite.scaleY = 2;
 
   stage.addChild(sprite);
+
   createjs.Ticker.addEventListener("tick", tick);
 }
 
 function tick() {
-  if (leftHeld) {
-    //sprite.x =
+  vel[0] *= (1 - FRICTION_FACTOR);
+  vel[1] *= (1 - FRICTION_FACTOR);
+
+  angle += angleVel;
+  console.log(angle);
+  forward = angleToVector(angle);
+
+  if (thrust) {
+    vel[0] += forward[0] * SPEED;
+    vel[1] += forward[1] * SPEED;
   }
 
-  if (rightHeld) {
-    //sprite.x =
+  sprite.x += vel[0];
+  sprite.y += vel[1];
+
+  if (sprite.x > canvas.width) {
+    sprite.x = sprite.x % canvas.width;
+  } else if (sprite.x < 0) {
+    sprite.x = canvas.width + (sprite.x % canvas.width);
+  }
+
+  if (sprite.y > canvas.height) {
+    sprite.y = sprite.y % canvas.height;
+  } else if (sprite.y < 0) {
+    sprite.y = canvas.height + (sprite.y % canvas.height);
   }
 
   if (leftHeld) {
@@ -75,24 +111,46 @@ function setEventHandlers() {
 
 function onKeydown(e) {
   switch(e.keyCode) {
+    case 38:
+      upHeld = true;
+      thrust = true;
+      break;
+    case 40:
+      downHeld = true;
+      thrust = false;
+      break;
     case 37:
       leftHeld = true;
+      angleVel = -TURN_ANGLE;
       break;
     case 39:
       rightHeld = true;
+      angleVel = TURN_ANGLE;
       break;
   }
 }
 
 function onKeyup(e) {
   switch(e.keyCode) {
+    case 38:
+      upHeld = false;
+      keyDown = false;
+      thrust = false;
+      break;
+    case 40:
+      downHeld = false;
+      keyDown = false;
+      thrust = false;
+      break;
     case 37:
+      angleVel = 0;
       leftHeld = false;
       keyDown = false;
       currentFrame = sprite.currentFrame;
       sprite.stop();
       break;
     case 39:
+      angleVel = 0;
       rightHeld = false;
       keyDown = false;
       currentFrame = sprite.currentFrame;
@@ -101,14 +159,13 @@ function onKeyup(e) {
   }
 }
 
-
 createjs.Sprite.prototype.reverse = function() {
     var currentFrame = this._currentFrame;
     var numFrames = this.spriteSheet.getNumFrames(this.currentAnimation);
     if (currentFrame <= 0) {
         currentFrame = numFrames - 1;
     } else {
-        -- currentFrame;
+        currentFrame--;
     }
     this.gotoAndStop(currentFrame);
 };
@@ -119,7 +176,7 @@ createjs.Sprite.prototype.forward = function() {
     if (currentFrame >= numFrames) {
         currentFrame = 0;
     } else {
-        ++ currentFrame;
+        currentFrame++;
     }
     this.gotoAndStop(currentFrame);
 };
