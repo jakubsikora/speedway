@@ -16,6 +16,9 @@ var canvas
   , forward = [0, 0]
   , vel = [0, 0]
   , thrust = false
+  , clutch = false
+  , clutchFactor = 1
+  , MAX_CLUTCH = 2
   , angle = 0
   , angleVel = 0
   , speed = 0;
@@ -74,11 +77,23 @@ function tick() {
 
   if (thrust) {
     if (angleVel === 0) {
-      vel[0] += forward[0] * SPEED * ACC;
-      vel[1] += forward[1] * SPEED * ACC;
+      vel[0] += forward[0] * SPEED * ACC * clutchFactor;
+      vel[1] += forward[1] * SPEED * ACC * clutchFactor;
     } else {
       vel[0] += forward[0] * SPEED;
       vel[1] += forward[1] * SPEED;
+    }
+  }
+
+  if(upHeld && clutch) {
+    if (clutchFactor < MAX_CLUTCH) {
+      clutchFactor += 0.1;
+    }
+  } else {
+    if (clutchFactor > 1) {
+      clutchFactor -= 0.1;
+    } else {
+      clutchFactor = 1;
     }
   }
 
@@ -123,7 +138,10 @@ function onKeydown(e) {
   switch(e.keyCode) {
     case 38:
       upHeld = true;
-      thrust = true;
+
+      if (!clutch) {
+        thrust = true;
+      }
       break;
     case 40:
       downHeld = true;
@@ -136,6 +154,9 @@ function onKeydown(e) {
     case 39:
       rightHeld = true;
       angleVel = TURN_ANGLE;
+      break;
+    case 32:
+      clutch = true;
       break;
   }
 }
@@ -166,14 +187,18 @@ function onKeyup(e) {
       currentFrame = sprite.currentFrame;
       sprite.stop();
       break;
+    case 32:
+      clutch = false;
+      break;
   }
 }
 
 function log() {
-  var barWidth = 0
-    , maxWidth = 180;
+  var throttleBarWidth = 0
+    , clutchBarWidth = 0;
 
-  barWidth = speed * maxWidth / 24;
+  throttleBarWidth = speed * 180 / 24;
+  clutchBarWidth = clutchFactor * 170 / MAX_CLUTCH;
 
   document.getElementById('bikePos').innerHTML =
     parseInt(sprite.x, 10) + ', ' + parseInt(sprite.y, 10);
@@ -182,11 +207,14 @@ function log() {
   document.getElementById('bikeForward').innerHTML =
     parseFloat(forward[0]).toFixed(2) + ', ' + parseFloat(forward[1]).toFixed(2);
   document.getElementById('bikeThrust').innerHTML = (thrust ? 'on' : 'off');
+  document.getElementById('bikeClutch').innerHTML = (clutch ? 'on' : 'off');
   document.getElementById('bikeAngle').innerHTML = parseFloat(angle).toFixed(2);
   document.getElementById('bikeAngleVel').innerHTML = angleVel;
   document.getElementById('bikeSpeed').innerHTML = speed;
+  document.getElementById('bikeClutchFactor').innerHTML = parseFloat(clutchFactor).toFixed(2);
   document.getElementById('currentFrame').innerHTML = sprite.currentFrame;
-  document.getElementById('bikeThrottleBar').style.width = barWidth + 'px';
+  document.getElementById('bikeThrottleBar').style.width = throttleBarWidth + 'px';
+  document.getElementById('bikeClutchBar').style.width = clutchBarWidth + 'px';
 };
 
 createjs.Sprite.prototype.reverse = function() {

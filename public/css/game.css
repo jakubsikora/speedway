@@ -13,13 +13,21 @@
   width: 180px;
 }
 
-#bikeThrottle {
+#bikeThrottleWrapper,
+#bikeClutchWrapper {
   border: 1px solid #000;
-  height: 30px;
+  height: 20px;
 }
 
 #bikeThrottleBar {
   background: #FF0000;
   width: 1px;
-  height: 30px;
+  height: 20px;
+}
+
+
+#bikeClutchBar {
+  background: #249857;
+  width: 1px;
+  height: 20px;
 }
