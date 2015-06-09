@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Speedway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="stylesheet" type="text/css" href="/css/game.css">
+
+  <script type="text/javascript" src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
+  <script type="text/javascript" src="js/game.js"></script>
+</head>
+<body onload="init();">
+  <canvas id="canvas"  height="670" width="1100"></canvas>
+  <table class='bikeHud'>
+      <tr>
+        <td>Current frame</td>
+        <td id='currentFrame'></td>
+      </tr>
+      <tr>
+        <td>Pos</td>
+        <td id='bikePos'></td>
+      </tr>
+      <tr>
+        <td>Vel</td>
+        <td id='bikeVel'></td>
+      </tr>
+      <tr>
+        <td>Forward</td>
+        <td id='bikeForward'></td>
+      </tr>
+      <tr>
+        <td>Thrust</td>
+        <td id='bikeThrust'></td>
+      </tr>
+      <tr>
+        <td>Angle</td>
+        <td id='bikeAngle'></td>
+      </tr>
+      <tr>
+        <td>Angle Vel</td>
+        <td id='bikeAngleVel'></td>
+      </tr>
+      <tr>
+        <td>Speed</td>
+        <td id='bikeSpeed'></td>
+      </tr>
+      <tr>
+        <td colspan="2" id='bikeThrottle'>
+          <div id='bikeThrottleBar'></div>
+        </td>
+      </tr>
+    </table>
+</body>
+</html>

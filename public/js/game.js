@@ -12,11 +12,13 @@ var canvas
   , FRICTION_FACTOR = 0.04
   , TURN_ANGLE = 0.098172
   , SPEED = 0.8
+  , ACC = 1.2
   , forward = [0, 0]
   , vel = [0, 0]
   , thrust = false
   , angle = 0
-  , angleVel = 0;
+  , angleVel = 0
+  , speed = 0;
 
 
 function angleToVector(newAngle) {
@@ -29,7 +31,7 @@ function init() {
   canvas = document.getElementById('canvas');
   stage = new createjs.Stage(canvas);
   img.onload = handleImageLoad;
-  img.src = 'http://i.imgur.com/bDBYSbr.png';
+  img.src = '/img/bloomfeld.png';
 }
 
 function handleImageLoad(e) {
@@ -52,8 +54,8 @@ function handleImageLoad(e) {
 
   currentFrame = sprite.currentFrame;
 
-  sprite.x = canvas.width / 2;
-  sprite.y = 720;
+  sprite.x = 518;
+  sprite.y = 648;
 
   sprite.scaleX = 2;
   sprite.scaleY = 2;
@@ -68,16 +70,23 @@ function tick() {
   vel[1] *= (1 - FRICTION_FACTOR);
 
   angle += angleVel;
-  console.log(angle);
   forward = angleToVector(angle);
 
   if (thrust) {
-    vel[0] += forward[0] * SPEED;
-    vel[1] += forward[1] * SPEED;
+    if (angleVel === 0) {
+      vel[0] += forward[0] * SPEED * ACC;
+      vel[1] += forward[1] * SPEED * ACC;
+    } else {
+      vel[0] += forward[0] * SPEED;
+      vel[1] += forward[1] * SPEED;
+    }
   }
 
   sprite.x += vel[0];
   sprite.y += vel[1];
+
+  speed = Math.sqrt((vel[0] * vel[0]) + (vel[1] * vel[1]));
+  speed = parseFloat(speed).toFixed(2)
 
   if (sprite.x > canvas.width) {
     sprite.x = sprite.x % canvas.width;
@@ -102,6 +111,7 @@ function tick() {
   }
 
   stage.update();
+  log();
 }
 
 function setEventHandlers() {
@@ -158,6 +168,26 @@ function onKeyup(e) {
       break;
   }
 }
+
+function log() {
+  var barWidth = 0
+    , maxWidth = 180;
+
+  barWidth = speed * maxWidth / 24;
+
+  document.getElementById('bikePos').innerHTML =
+    parseInt(sprite.x, 10) + ', ' + parseInt(sprite.y, 10);
+  document.getElementById('bikeVel').innerHTML =
+    parseFloat(vel[0]).toFixed(2) + ', ' + parseFloat(vel[1]).toFixed(2);
+  document.getElementById('bikeForward').innerHTML =
+    parseFloat(forward[0]).toFixed(2) + ', ' + parseFloat(forward[1]).toFixed(2);
+  document.getElementById('bikeThrust').innerHTML = (thrust ? 'on' : 'off');
+  document.getElementById('bikeAngle').innerHTML = parseFloat(angle).toFixed(2);
+  document.getElementById('bikeAngleVel').innerHTML = angleVel;
+  document.getElementById('bikeSpeed').innerHTML = speed;
+  document.getElementById('currentFrame').innerHTML = sprite.currentFrame;
+  document.getElementById('bikeThrottleBar').style.width = barWidth + 'px';
+};
 
 createjs.Sprite.prototype.reverse = function() {
     var currentFrame = this._currentFrame;
