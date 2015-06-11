@@ -3,4 +3,6 @@ var FRICTION_FACTOR = 0.04
   , MAX_CLUTCH = 3
   , MIN_CLUTCH = 1
   , SPEED = 0.8
-  , ACC = 1.2;
+  , ACC = 1.2
+  , BIKE_START_FRAME = 16
+  , MAX_ANGLE = 6.28;

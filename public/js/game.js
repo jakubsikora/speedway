@@ -1,18 +1,42 @@
 var canvas
   , stage
-  , img = new Image()
+  , keys
   , localPlayer = {};
 
-
 var init = function() {
-  setEventHandlers();
+  keys = new Keys();
 
   canvas = document.getElementById('canvas');
   stage = new createjs.Stage(canvas);
-  img.onload = handleImageLoad;
-  img.src = '/img/bloomfeld.png';
+
+  localPlayer = new Bike();
+  localPlayer.init();
+
+  setEventHandlers();
 };
 
 var setEventHandlers = function() {
+  window.addEventListener("keydown", onKeydown, false);
+  window.addEventListener("keyup", onKeyup, false);
+  createjs.Ticker.addEventListener("tick", tick);
+};
 
-}
+var tick = function() {
+  console.log('tick');
+  if (localPlayer) localPlayer.update();
+
+  stage.update();
+};
+
+var onKeydown = function(e) {
+  if (localPlayer) {
+    keys.onKeyDown(e);
+  };
+};
+
+
+var onKeyup = function(e) {
+  if (localPlayer) {
+    keys.onKeyUp(e);
+  };
+};
