@@ -1,41 +1,50 @@
+'use strict';
+
 var canvas
   , stage
   , keys
+  , track
   , localPlayer = {};
 
-var init = function() {
+function tick() {
+  if (localPlayer.getSprite()) localPlayer.update();
+  track.update();
+
+  stage.update();
+}
+
+function setEventHandlers() {
+  window.addEventListener("keydown", onKeydown, false);
+  window.addEventListener("keyup", onKeyup, false);
+  createjs.Ticker.addEventListener("tick", tick);
+}
+
+function init() {
   keys = new Keys();
+  track = new Track();
 
   canvas = document.getElementById('canvas');
   stage = new createjs.Stage(canvas);
 
+  // Maximise the canvas
+  canvas.width = CANVAS_WIDTH;
+  canvas.height = CANVAS_HEIGHT;
+
   localPlayer = new Bike();
   localPlayer.init();
+  track.init();
 
   setEventHandlers();
-};
+}
 
-var setEventHandlers = function() {
-  window.addEventListener("keydown", onKeydown, false);
-  window.addEventListener("keyup", onKeyup, false);
-  createjs.Ticker.addEventListener("tick", tick);
-};
-
-var tick = function() {
-  if (localPlayer.getSprite()) localPlayer.update();
-
-  stage.update();
-};
-
-var onKeydown = function(e) {
+function onKeydown(e) {
   if (localPlayer) {
     keys.onKeyDown(e);
-  };
-};
+  }
+}
 
-
-var onKeyup = function(e) {
+function onKeyup(e) {
   if (localPlayer) {
     keys.onKeyUp(e);
-  };
-};
+  }
+}

@@ -1,11 +1,13 @@
-function Keys() {
+'use strict';
+
+var Keys = function() {
   var up = false
     , down = false
     , left = false
     , right = false
     , action = false;
 
-  var onKeyDown = function(e) {
+  function onKeyDown(e) {
     var that = this;
 
     switch(e.keyCode) {
@@ -27,7 +29,7 @@ function Keys() {
     }
   }
 
-  var onKeyUp = function(e) {
+  function onKeyUp(e) {
     var that = this;
 
     switch(e.keyCode) {
@@ -57,5 +59,5 @@ function Keys() {
     right: right,
     down: down,
     action: action
-  }
-}
+  };
+};

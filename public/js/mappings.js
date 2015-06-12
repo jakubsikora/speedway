@@ -1,3 +1,5 @@
+'use strict';
+
 var Mapping = function() {
   this.right = {
     17: 0.098172,

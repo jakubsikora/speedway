@@ -1,3 +1,5 @@
+'use strict';
+
 var Bike = function() {
   var forward = [0, 0]
     , velXY = [0, 0]

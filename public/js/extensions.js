@@ -1,3 +1,5 @@
+'use strict';
+
 createjs.Sprite.prototype.reverse = function() {
     var currentFrame = this._currentFrame
         , numFrames = this.spriteSheet.getNumFrames(this.currentAnimation);
