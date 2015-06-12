@@ -74,8 +74,11 @@ var Bike = function() {
     thrust = (!clutch && keys.up) ? true : false;
 
     // Turning
-    angleVel = keys.left ? -TURN_ANGLE : 0;
-    angleVel = keys.right ? TURN_ANGLE : 0;
+    if (keys.left) angleVel = -TURN_ANGLE;
+    if (keys.right) angleVel = TURN_ANGLE;
+
+    if (!keys.left && !keys.right) angleVel = 0;
+
 
     // Custom animation
     if (sprite && (!keys.left || !keys.right)) sprite.stop();
