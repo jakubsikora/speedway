@@ -22,8 +22,7 @@ var setEventHandlers = function() {
 };
 
 var tick = function() {
-  console.log('tick');
-  if (localPlayer) localPlayer.update();
+  if (localPlayer.getSprite()) localPlayer.update();
 
   stage.update();
 };

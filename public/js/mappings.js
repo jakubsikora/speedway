@@ -1,4 +1,4 @@
-function Mapping() {
+var Mapping = function() {
   this.right = {
     17: 0.098172,
     18: 0.196344,
@@ -132,4 +132,4 @@ function Mapping() {
     717: -6.184835999999996,
     16: 0
   };
-}
+};
