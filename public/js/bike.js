@@ -69,23 +69,6 @@ var Bike = function() {
     }
   }
 
-  function preset() {
-    clutch = keys.action ? true : false;
-
-    // Thrust can happen only if clutch is not present.
-    thrust = (!clutch && keys.up) ? true : false;
-
-    // Turning
-    if (keys.left) angleVel = -TURN_ANGLE;
-    if (keys.right) angleVel = TURN_ANGLE;
-
-    if (!keys.left && !keys.right) angleVel = 0;
-
-
-    // Custom animation
-    if (sprite && (!keys.left || !keys.right)) sprite.stop();
-  }
-
   function log() {
     var throttleBarWidth = 0
       , clutchBarWidth = 0;
@@ -109,6 +92,23 @@ var Bike = function() {
     $('#currentFrame').text(sprite.currentFrame);
     $('#bikeThrottleBar').css('width', throttleBarWidth + 'px');
     $('#bikeClutchBar').css('width', clutchBarWidth + 'px');
+  }
+
+  function preset() {
+    clutch = keys.action ? true : false;
+
+    // Thrust can happen only if clutch is not present.
+    thrust = (!clutch && keys.up) ? true : false;
+
+    // Turning
+    if (keys.left) angleVel = -TURN_ANGLE;
+    if (keys.right) angleVel = TURN_ANGLE;
+
+    if (!keys.left && !keys.right) angleVel = 0;
+
+
+    // Custom animation
+    if (sprite && (!keys.left || !keys.right)) sprite.stop();
   }
 
   function update() {

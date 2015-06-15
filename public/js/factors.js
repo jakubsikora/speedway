@@ -12,4 +12,13 @@ var FRICTION_FACTOR = 0.023
   , TURN_OFFSET = 1
   , GRASS_WIDTH = 520
   , GRASS_HEIGHT = 280
-  , GRASS_OFFSET = 150;
+  , GRASS_OFFSET = 150
+  , TRACK_OFFSET_X = 350
+  , TRACK_OFFSET_Y = 250;
+
+$(document).ready(function() {
+  $('.factor-input').change(function() {
+    var factor = $(this).attr('data-factor');
+    window[factor] = $(this).val();
+  });
+});

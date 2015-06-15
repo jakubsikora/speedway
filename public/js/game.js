@@ -10,7 +10,7 @@ function tick() {
   if (localPlayer.getSprite()) localPlayer.update();
   track.update();
 
-  $('#fps').text(Math.round(createjs.Ticker.getMeasuredFPS()) + " / " + MAX_FPS);
+  $('#fps').text(Math.round(createjs.Ticker.getMeasuredFPS()));
   stage.update();
 }
 
@@ -39,7 +39,16 @@ function init() {
   localPlayer.init();
   track.init();
 
+  initFactors();
   setEventHandlers();
+}
+
+function initFactors() {
+  $('#bikeSPEEDFactor').val(SPEED);
+  $('#bikeACCFactor').val(ACC);
+  $('#bikeFRICTIONFactor').val(FRICTION_FACTOR);
+  $('#bikeTURN_OFFSETFactor').val(TURN_OFFSET);
+  $('#bikeMAX_CLUTCHFactor').val(MAX_CLUTCH);
 }
 
 function onKeydown(e) {
