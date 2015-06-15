@@ -3,19 +3,38 @@
 var Track = function() {
 
   function init() {
+    var x0 = CANVAS_WIDTH / 2
+      , y0 = CANVAS_HEIGHT / 2
+      , x1 = (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2)
+      , y1 = (CANVAS_HEIGHT / 2) - (GRASS_HEIGHT / 2)
+      , x2 = (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2)
+      , y2 = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2);
+
     var stadium = new createjs.Shape();
     stadium.graphics
       .setStrokeStyle(1)
-      .beginStroke("rgba(0,0,0,1)")
-      .moveTo(20, 10)
-      .lineTo(80, 10)
-      .quadraticCurveTo(90, 10, 90, 20)
-      .lineTo(90, 80)
-      .quadraticCurveTo(90, 90, 80, 90)
-      .lineTo(20, 90)
-      .quadraticCurveTo(10, 90, 10, 80)
-      .lineTo(10, 20)
-      .quadraticCurveTo(10, 10, 20, 10);
+      .beginStroke("#555555")
+      .beginFill("#78AB46")
+      .moveTo(x1, y1)
+      .lineTo(x2, y1)
+      .bezierCurveTo(
+        x2 + GRASS_OFFSET,
+        y1,
+        x2 + GRASS_OFFSET,
+        y2,
+        x2,
+        y2
+      )
+      .lineTo(x1, y2)
+      .bezierCurveTo(
+        x1 - GRASS_OFFSET,
+        y2,
+        x1 - GRASS_OFFSET,
+        y1,
+        x1,
+        y1
+      )
+      .endFill();
 
     stage.addChild(stadium);
   }

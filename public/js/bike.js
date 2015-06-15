@@ -11,7 +11,9 @@ var Bike = function() {
     , angleVel = 0
     , sprite = null
     , img = new Image()
-    , mapping = new Mapping();
+    , mapping = new Mapping()
+    , leftOffset = 0
+    , rightOffset = 0;
 
   function init() {
     img.onload = handleImageLoad;
@@ -36,8 +38,8 @@ var Bike = function() {
     sprite.regY = sprite.spriteSheet.frameHeight / 2 | 0;
     sprite.gotoAndStop(BIKE_START_FRAME);
 
-    sprite.x = 518;
-    sprite.y = 648;
+    sprite.x = (CANVAS_WIDTH / 2) - 20;
+    sprite.y = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2) + 50;
 
     sprite.scaleX = 2;
     sprite.scaleY = 2;
@@ -162,11 +164,21 @@ var Bike = function() {
     }
 
     if (keys.left) {
-      sprite.reverse();
+      if (leftOffset >= TURN_OFFSET) {
+        leftOffset = 0;
+        sprite.reverse();
+      } else {
+        leftOffset++;
+      }
     }
 
     if (keys.right) {
-      sprite.forward();
+      if (rightOffset >= TURN_OFFSET) {
+        rightOffset = 0;
+        sprite.forward();
+      } else {
+        rightOffset++;
+      }
     }
 
     adjustFrameMapping();

@@ -10,6 +10,7 @@ function tick() {
   if (localPlayer.getSprite()) localPlayer.update();
   track.update();
 
+  $('#fps').text(Math.round(createjs.Ticker.getMeasuredFPS()) + " / " + MAX_FPS);
   stage.update();
 }
 
@@ -17,6 +18,8 @@ function setEventHandlers() {
   window.addEventListener("keydown", onKeydown, false);
   window.addEventListener("keyup", onKeyup, false);
   createjs.Ticker.addEventListener("tick", tick);
+  createjs.Ticker.framerate = MAX_FPS;
+  createjs.Ticker.timingMode = createjs.Ticker.RAF;
 }
 
 function init() {
@@ -25,6 +28,8 @@ function init() {
 
   canvas = document.getElementById('canvas');
   stage = new createjs.Stage(canvas);
+  stage.mouseEventsEnabled = true;
+  stage.mouseMoveOutside = false;
 
   // Maximise the canvas
   canvas.width = CANVAS_WIDTH;
