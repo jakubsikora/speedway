@@ -7,6 +7,7 @@ var Bike = function() {
     , thrust = false
     , clutch = false
     , clutchFactor = 1
+    , friction = FRICTION_FACTOR
     , angle = 0
     , angleVel = 0
     , sprite = null
@@ -41,8 +42,8 @@ var Bike = function() {
     sprite.x = (CANVAS_WIDTH / 2) - 20;
     sprite.y = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2) + 50;
 
-    sprite.scaleX = 2;
-    sprite.scaleY = 2;
+    sprite.scaleX = 1;
+    sprite.scaleY = 1;
 
     stage.addChild(sprite);
   }
@@ -114,8 +115,8 @@ var Bike = function() {
   function update() {
     preset();
 
-    velXY[0] *= (1 - FRICTION_FACTOR);
-    velXY[1] *= (1 - FRICTION_FACTOR);
+    velXY[0] *= (1 - friction);
+    velXY[1] *= (1 - friction);
 
     angle += angleVel;
 
@@ -181,6 +182,7 @@ var Bike = function() {
       }
     }
 
+    sprite.setBounds(sprite.x, sprite.y, 20, 20);
     adjustFrameMapping();
     log();
   }
@@ -189,9 +191,14 @@ var Bike = function() {
     return sprite;
   }
 
+  function setFriction(newFriction) {
+    friction = newFriction;
+  }
+
   return {
     init: init,
     update: update,
-    getSprite: getSprite
+    getSprite: getSprite,
+    setFriction: setFriction
   };
 };

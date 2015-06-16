@@ -1,6 +1,10 @@
 'use strict';
 
 var Track = function() {
+  var stadiumGrass = new createjs.Shape()
+    , stadiumCurb = new createjs.Shape()
+    , stadiumBand = new createjs.Shape()
+    , stadiumBandEdge = new createjs.Shape();
 
   function init() {
     var x1 = (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2)
@@ -11,11 +15,6 @@ var Track = function() {
       , bandy1 = y1 - TRACK_OFFSET_Y
       , bandx2 = x2
       , bandy2 = y2 + TRACK_OFFSET_Y;
-
-    var stadiumGrass = new createjs.Shape()
-      , stadiumCurb = new createjs.Shape()
-      , stadiumBand = new createjs.Shape()
-      , stadiumBandEdge = new createjs.Shape();
 
     stadiumGrass.graphics
       .setStrokeStyle(1)
@@ -64,6 +63,8 @@ var Track = function() {
         x1,
         y1
       );
+
+    stadiumCurb.setBounds(x1, y1, GRASS_WIDTH, GRASS_HEIGHT);
 
     stadiumBand.graphics
       .setStrokeStyle(20)
@@ -123,8 +124,13 @@ var Track = function() {
 
   }
 
+  function getStadiumCurb() {
+    return stadiumCurb;
+  }
+
   return {
     init: init,
-    update: update
+    update: update,
+    getStadiumCurb: getStadiumCurb
   };
 };
