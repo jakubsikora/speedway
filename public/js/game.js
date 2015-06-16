@@ -8,7 +8,6 @@ var canvas
 
 
 function checkIntersection(rect1,rect2) {
-  console.log(rect1, rect2);
   if (rect1.x >= rect2.x + rect2.width
       || rect1.x + rect1.width <= rect2.x
       || rect1.y >= rect2.y + rect2.height
