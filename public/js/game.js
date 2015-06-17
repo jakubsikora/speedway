@@ -73,7 +73,7 @@ function tick() {
           .drawCircle(0, 0, localPlayer.circle.r);
     }
   }
-  $('#fps').text(Math.round(createjs.Ticker.getMeasuredFPS()));
+
   stage.update();
 }
 
