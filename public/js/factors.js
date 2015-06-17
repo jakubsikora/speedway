@@ -1,8 +1,8 @@
-var FRICTION_FACTOR = 0.023
+var FRICTION_FACTOR = 0.05
   , TURN_ANGLE = 0.098172
   , MAX_CLUTCH = 3
   , MIN_CLUTCH = 1
-  , SPEED = 0.15
+  , SPEED = 0.7
   , ACC = 1.2
   , BIKE_START_FRAME = 16
   , MAX_ANGLE = 6.28
@@ -17,10 +17,3 @@ var FRICTION_FACTOR = 0.023
   , TRACK_OFFSET_Y = 250
   , FRAME_WIDTH = 42
   , FRAME_HEIGHT = 42;
-
-$(document).ready(function() {
-  $('.factor-input').change(function() {
-    var factor = $(this).attr('data-factor');
-    window[factor] = $(this).val();
-  });
-});

@@ -160,35 +160,20 @@ var Bike = function() {
     velocity = Math.sqrt((velXY[0] * velXY[0]) + (velXY[1] * velXY[1]));
     velocity = parseFloat(velocity).toFixed(2);
 
-    if (sprite.x > canvas.width) {
-      sprite.x = sprite.x % canvas.width;
+    if (sprite.x > CANVAS_WIDTH) {
+      sprite.x = sprite.x % CANVAS_WIDTH;
     } else if (sprite.x < 0) {
-      sprite.x = canvas.width + (sprite.x % canvas.width);
+      sprite.x = CANVAS_WIDTH + (sprite.x % CANVAS_WIDTH);
     }
 
-    if (sprite.y > canvas.height) {
-      sprite.y = sprite.y % canvas.height;
+    if (sprite.y > CANVAS_HEIGHT) {
+      sprite.y = sprite.y % CANVAS_HEIGHT;
     } else if (sprite.y < 0) {
-      sprite.y = canvas.height + (sprite.y % canvas.height);
+      sprite.y = CANVAS_HEIGHT + (sprite.y % CANVAS_HEIGHT);
     }
 
-    if (keys.left) {
-      if (leftOffset >= TURN_OFFSET) {
-        leftOffset = 0;
-        sprite.reverse();
-      } else {
-        leftOffset++;
-      }
-    }
-
-    if (keys.right) {
-      if (rightOffset >= TURN_OFFSET) {
-        rightOffset = 0;
-        sprite.forward();
-      } else {
-        rightOffset++;
-      }
-    }
+    if (keys.left) sprite.reverse();
+    if (keys.right) sprite.forward();
 
     collision.x = sprite.x;
     collision.y = sprite.y;

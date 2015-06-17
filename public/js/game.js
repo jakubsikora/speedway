@@ -8,7 +8,6 @@ var canvas
   , collision;
 
 function tick() {
-  if (localPlayer.getSprite()) localPlayer.update();
   //track.update();
 
   // TODO move somewhere - collision detection
@@ -28,11 +27,15 @@ function tick() {
   stage.update();
 }
 
+function update() {
+  if (localPlayer.getSprite()) localPlayer.update();
+}
+
 function setEventHandlers() {
   window.addEventListener("keydown", onKeydown, false);
   window.addEventListener("keyup", onKeyup, false);
+  setInterval(update, 100/3);
   createjs.Ticker.addEventListener("tick", tick);
-  createjs.Ticker.framerate = MAX_FPS;
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
 }
 
