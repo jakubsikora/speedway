@@ -4,13 +4,7 @@ var Track = function() {
   var stadiumGrass = new createjs.Shape()
     , stadiumCurb = new createjs.Shape()
     , stadiumBand = new createjs.Shape()
-    , stadiumBandEdge = new createjs.Shape()
-    , collision = {
-        x: 0,
-        y: 0,
-        width: GRASS_WIDTH,
-        height: GRASS_HEIGHT
-      };
+    , stadiumBandEdge = new createjs.Shape();
 
   function init() {
     var x1 = (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2)
@@ -21,9 +15,6 @@ var Track = function() {
       , bandy1 = y1 - TRACK_OFFSET_Y
       , bandx2 = x2
       , bandy2 = y2 + TRACK_OFFSET_Y;
-
-    collision.x = x1;
-    collision.y = y1;
 
     stadiumGrass.graphics
       .setStrokeStyle(1)
@@ -133,13 +124,31 @@ var Track = function() {
 
   }
 
-  function getStadiumCurb() {
-    return stadiumCurb;
+  function getRectDimensions() {
+    return [{
+      x: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
+      y: (CANVAS_HEIGHT / 2) - (GRASS_HEIGHT / 2),
+      width: GRASS_WIDTH,
+      height: GRASS_HEIGHT
+    }];
+  }
+
+  function getCircleDimensions() {
+    return [{
+      x: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
+      y: (CANVAS_HEIGHT / 2),
+      r: GRASS_OFFSET - 35
+    }, {
+      x: (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2),
+      y: (CANVAS_HEIGHT / 2),
+      r: GRASS_OFFSET - 35
+    }];
   }
 
   return {
     init: init,
     update: update,
-    collision: collision
+    getRectDimensions: getRectDimensions,
+    getCircleDimensions: getCircleDimensions
   };
 };

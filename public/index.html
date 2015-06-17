@@ -12,113 +12,12 @@
 </head>
 <body onload="init();">
   <canvas id="canvas"></canvas>
-<!--   <table class='bikeHud'>
-      <tr>
-        <td>FPS</td>
-        <td id='fps'></td>
-      </tr>
-      <tr>
-        <td>Current frame</td>
-        <td id='currentFrame'></td>
-      </tr>
-      <tr>
-        <td>Pos</td>
-        <td id='bikePos'></td>
-      </tr>
-      <tr>
-        <td>Vel</td>
-        <td id='bikeVel'></td>
-      </tr>
-      <tr>
-        <td>Forward</td>
-        <td id='bikeForward'></td>
-      </tr>
-      <tr>
-        <td>Angle</td>
-        <td id='bikeAngle'></td>
-      </tr>
-      <tr>
-        <td>Angle Vel</td>
-        <td id='bikeAngleVel'></td>
-      </tr>
-      <tr>
-        <td>Up</td>
-        <td id='bikeUp'></td>
-      </tr>
-      <tr>
-        <td>Thrust</td>
-        <td id='bikeThrust'></td>
-      </tr>
-      <tr>
-        <td>Speed</td>
-        <td id='bikeSpeed'></td>
-      </tr>
-      <tr>
-        <td colspan="2" id='bikeThrottleWrapper'>
-          <div id='bikeThrottleBar'></div>
-        </td>
-      </tr>
-      <tr>
-        <td>Clutch</td>
-        <td id='bikeClutch'></td>
-      </tr>
-      <tr>
-        <td>Clutch Factor</td>
-        <td id='bikeClutchFactor'></td>
-      </tr>
-      <tr>
-        <td colspan="2" id='bikeClutchWrapper'>
-          <div id='bikeClutchBar'></div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          SPEED
-        </td>
-        <td>
-          <input type="number" id='bikeSPEEDFactor' class='factor-input' data-factor="SPEED" step="0.01"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          ACC
-        </td>
-        <td>
-          <input type="number" id='bikeACCFactor' class='factor-input' data-factor="ACC" step="0.01"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          FRICTION
-        </td>
-        <td>
-          <input type="number" id='bikeFRICTIONFactor' class='factor-input' data-factor="FRICTION_FACTOR" step="0.001"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          TURN_OFFSET
-        </td>
-        <td>
-          <input type="number" id='bikeTURN_OFFSETFactor' class='factor-input' data-factor="TURN_OFFSET" step="1"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MAX_CLUTCH
-        </td>
-        <td>
-          <input type="number" id='bikeMAX_CLUTCHFactor' class='factor-input' data-factor="MAX_CLUTCH" step="1"/>
-        </td>
-      </tr>
-  </table> -->
-
   <script type="text/javascript" src="vendor/easeljs/lib/easeljs-0.8.1.combined.js"></script>
-  <script type="text/javascript" src="vendor/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="js/extensions.js"></script>
   <script type="text/javascript" src="js/factors.js"></script>
   <script type="text/javascript" src="js/mappings.js"></script>
   <script type="text/javascript" src="js/collision.js"></script>
+  <script type="text/javascript" src="js/mask.js"></script>
   <script type="text/javascript" src="js/keys.js"></script>
   <script type="text/javascript" src="js/bike.js"></script>
   <script type="text/javascript" src="js/track.js"></script>

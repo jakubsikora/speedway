@@ -13,21 +13,8 @@ var Bike = function() {
     , sprite = null
     , img = new Image()
     , mapping = new Mapping()
-    , leftOffset = 0
-    , rightOffset = 0
-    , collision = {
-        x: 0,
-        y: 0,
-        width: FRAME_WIDTH,
-        height: FRAME_HEIGHT
-      }
-    , width = 42
-    , height = 42
-    , circle = {
-          x: 0,
-          y: 0,
-          r: 21
-      };
+    , mask = new Mask(FRAME_HEIGHT / 2)
+    , collision = new Collision();
 
   function init() {
     img.onload = handleImageLoad;
@@ -40,10 +27,10 @@ var Bike = function() {
       images: [img],
       // width, height & registration point of each sprite
       frames: {
-        width: 42,
-        height: 42,
-        regX: 21,
-        regY: 21
+        width: FRAME_WIDTH,
+        height: FRAME_HEIGHT,
+        regX: FRAME_WIDTH / 2,
+        regY: FRAME_HEIGHT / 2
       }
     });
 
@@ -58,6 +45,8 @@ var Bike = function() {
     sprite.scaleX = 2;
     sprite.scaleY = 2;
     stage.addChild(sprite);
+
+    mask.init(sprite.x, sprite.y);
   }
 
   function angleToVector(newAngle) {
@@ -82,31 +71,6 @@ var Bike = function() {
     }
   }
 
-  function log() {
-    var throttleBarWidth = 0
-      , clutchBarWidth = 0;
-
-    throttleBarWidth = velocity * 180 / 24;
-
-    if (throttleBarWidth > 180) throttleBarWidth = 180;
-
-    clutchBarWidth = clutchFactor * 170 / MAX_CLUTCH;
-
-    $('#bikePos').text(parseInt(sprite.x, 10) + ', ' + parseInt(sprite.y, 10));
-    $('#bikeVel').text(parseFloat(velXY[0]).toFixed(2) + ', ' + parseFloat(velXY[1]).toFixed(2));
-    $('#bikeForward').text(parseFloat(forward[0]).toFixed(2) + ', ' + parseFloat(forward[1]).toFixed(2));
-    $('#bikeUp').text((keys.up ? 'on' : 'off'));
-    $('#bikeThrust').text((thrust ? 'on' : 'off'));
-    $('#bikeClutch').text((clutch ? 'on' : 'off'));
-    $('#bikeAngle').text(parseFloat(angle).toFixed(2));
-    $('#bikeAngleVel').text(angleVel);
-    $('#bikeSpeed').text(velocity);
-    $('#bikeClutchFactor').text(parseFloat(clutchFactor).toFixed(2));
-    $('#currentFrame').text(sprite.currentFrame);
-    $('#bikeThrottleBar').css('width', throttleBarWidth + 'px');
-    $('#bikeClutchBar').css('width', clutchBarWidth + 'px');
-  }
-
   function preset() {
     clutch = keys.action ? true : false;
 
@@ -125,6 +89,8 @@ var Bike = function() {
   }
 
   function update() {
+    if (!sprite) return;
+
     preset();
 
     velXY[0] *= (1 - friction);
@@ -179,27 +145,55 @@ var Bike = function() {
     if (keys.left) sprite.reverse();
     if (keys.right) sprite.forward();
 
-    collision.x = sprite.x;
-    collision.y = sprite.y;
-
     adjustFrameMapping();
     //log();
+    mask.update(sprite.x, sprite.y);
   }
 
-  function getSprite() {
-    return sprite;
+  function getMask() {
+    return mask.getDimensions();
   }
 
-  function setFriction(newFriction) {
-    friction = newFriction;
+  function setCollision(status) {
+    mask.setCollide(status);
+
+    if (status) {
+      friction = FRICTION_FACTOR * 5;
+    } else {
+      friction = FRICTION_FACTOR;
+    }
   }
 
   return {
     init: init,
     update: update,
-    getSprite: getSprite,
-    setFriction: setFriction,
-    collision: collision,
-    circle: circle
+    getMask: getMask,
+    setCollision: setCollision
   };
 };
+
+
+  // function log() {
+  //   var throttleBarWidth = 0
+  //     , clutchBarWidth = 0;
+
+  //   throttleBarWidth = velocity * 180 / 24;
+
+  //   if (throttleBarWidth > 180) throttleBarWidth = 180;
+
+  //   clutchBarWidth = clutchFactor * 170 / MAX_CLUTCH;
+
+  //   $('#bikePos').text(parseInt(sprite.x, 10) + ', ' + parseInt(sprite.y, 10));
+  //   $('#bikeVel').text(parseFloat(velXY[0]).toFixed(2) + ', ' + parseFloat(velXY[1]).toFixed(2));
+  //   $('#bikeForward').text(parseFloat(forward[0]).toFixed(2) + ', ' + parseFloat(forward[1]).toFixed(2));
+  //   $('#bikeUp').text((keys.up ? 'on' : 'off'));
+  //   $('#bikeThrust').text((thrust ? 'on' : 'off'));
+  //   $('#bikeClutch').text((clutch ? 'on' : 'off'));
+  //   $('#bikeAngle').text(parseFloat(angle).toFixed(2));
+  //   $('#bikeAngleVel').text(angleVel);
+  //   $('#bikeSpeed').text(velocity);
+  //   $('#bikeClutchFactor').text(parseFloat(clutchFactor).toFixed(2));
+  //   $('#currentFrame').text(sprite.currentFrame);
+  //   $('#bikeThrottleBar').css('width', throttleBarWidth + 'px');
+  //   $('#bikeClutchBar').css('width', clutchBarWidth + 'px');
+  // }
