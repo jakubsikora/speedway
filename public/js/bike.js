@@ -22,7 +22,12 @@ var Bike = function() {
         height: FRAME_HEIGHT
       }
     , width = 42
-    , height = 42;
+    , height = 42
+    , circle = {
+          x: 0,
+          y: 0,
+          r: 21
+      };
 
   function init() {
     img.onload = handleImageLoad;
@@ -52,7 +57,6 @@ var Bike = function() {
 
     sprite.scaleX = 2;
     sprite.scaleY = 2;
-
     stage.addChild(sprite);
   }
 
@@ -195,6 +199,7 @@ var Bike = function() {
     update: update,
     getSprite: getSprite,
     setFriction: setFriction,
-    collision: collision
+    collision: collision,
+    circle: circle
   };
 };
