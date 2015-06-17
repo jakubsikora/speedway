@@ -14,7 +14,9 @@ var FRICTION_FACTOR = 0.023
   , GRASS_HEIGHT = 280
   , GRASS_OFFSET = 150
   , TRACK_OFFSET_X = 350
-  , TRACK_OFFSET_Y = 250;
+  , TRACK_OFFSET_Y = 250
+  , FRAME_WIDTH = 42
+  , FRAME_HEIGHT = 42;
 
 $(document).ready(function() {
   $('.factor-input').change(function() {

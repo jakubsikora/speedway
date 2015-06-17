@@ -14,7 +14,15 @@ var Bike = function() {
     , img = new Image()
     , mapping = new Mapping()
     , leftOffset = 0
-    , rightOffset = 0;
+    , rightOffset = 0
+    , collision = {
+        x: 0,
+        y: 0,
+        width: FRAME_WIDTH,
+        height: FRAME_HEIGHT
+      }
+    , width = 42
+    , height = 42;
 
   function init() {
     img.onload = handleImageLoad;
@@ -42,8 +50,8 @@ var Bike = function() {
     sprite.x = (CANVAS_WIDTH / 2) - 20;
     sprite.y = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2) + 50;
 
-    sprite.scaleX = 1;
-    sprite.scaleY = 1;
+    sprite.scaleX = 2;
+    sprite.scaleY = 2;
 
     stage.addChild(sprite);
   }
@@ -182,7 +190,9 @@ var Bike = function() {
       }
     }
 
-    sprite.setBounds(sprite.x, sprite.y, 20, 20);
+    collision.x = sprite.x;
+    collision.y = sprite.y;
+
     adjustFrameMapping();
     log();
   }
@@ -199,6 +209,7 @@ var Bike = function() {
     init: init,
     update: update,
     getSprite: getSprite,
-    setFriction: setFriction
+    setFriction: setFriction,
+    collision: collision
   };
 };
