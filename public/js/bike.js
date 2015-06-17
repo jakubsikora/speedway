@@ -194,7 +194,7 @@ var Bike = function() {
     collision.y = sprite.y;
 
     adjustFrameMapping();
-    log();
+    //log();
   }
 
   function getSprite() {

@@ -9,19 +9,19 @@ var canvas
 
 function tick() {
   if (localPlayer.getSprite()) localPlayer.update();
-  track.update();
+  //track.update();
 
   // TODO move somewhere - collision detection
   if (localPlayer.getSprite()) {
 
-    if (collision.checkIntersection(
-        localPlayer.collision,
-        track.collision)
-    ) {
-      localPlayer.setFriction(0.5);
-    } else {
-      localPlayer.setFriction(FRICTION_FACTOR);
-    }
+    // if (collision.checkIntersection(
+    //     localPlayer.collision,
+    //     track.collision)
+    // ) {
+    //   localPlayer.setFriction(0.5);
+    // } else {
+    //   localPlayer.setFriction(FRICTION_FACTOR);
+    // }
   }
 
   $('#fps').text(Math.round(createjs.Ticker.getMeasuredFPS()));
@@ -38,7 +38,7 @@ function setEventHandlers() {
 
 function init() {
   keys = new Keys();
-  track = new Track();
+  //track = new Track();
   collision = new Collision();
 
   canvas = document.getElementById('canvas');
@@ -52,7 +52,7 @@ function init() {
 
   localPlayer = new Bike();
   localPlayer.init();
-  track.init();
+  //track.init();
 
   initFactors();
   setEventHandlers();
