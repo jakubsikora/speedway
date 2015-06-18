@@ -160,9 +160,15 @@ var Track = function() {
 
   function getOuterCircleDimensions() {
     return [{
+      x: x1,
+      y: (CANVAS_HEIGHT / 2),
+      r: TRACK_OFFSET_X - 10,
+      bounds: LEFT_TURN_BOUNDS
+    },{
       x: x2,
       y: (CANVAS_HEIGHT / 2),
-      r: TRACK_OFFSET_X - 25
+      r: TRACK_OFFSET_X - 10,
+      bounds: RIGHT_TURN_BOUNDS
     }];
   }
 

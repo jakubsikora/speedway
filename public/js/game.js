@@ -58,7 +58,7 @@ function update() {
         localPlayerMask,
         item)
       ) {
-        //collisionStatus = true;
+        collisionStatus = true;
       }
     });
   }

@@ -36,14 +36,13 @@ var Collision = function() {
     }
   }
 
-  function circleCircleOuter(circle1, circle2, bounds) {
+  function circleCircleOuter(circle1, circle2) {
     var dx = circle2.x - circle1.x
       , dy = circle2.y - circle1.y
       , distance = Math.sqrt(dx * dx + dy * dy);
 
-    if ((circle1.x > bounds.x1 && circle1.x < bounds.x2)
-       && (circle1.y > bounds.y1 && circle1.y < bounds.y2)) {
-      console.log('inside');
+    if ((circle1.x > circle2.bounds.x1 && circle1.x < circle2.bounds.x2)
+       && (circle1.y > circle2.bounds.y1 && circle1.y < circle2.bounds.y2)) {
       if (distance > circle1.r + circle2.r) {
         return true;
       } else {

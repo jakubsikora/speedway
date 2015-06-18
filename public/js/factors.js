@@ -16,4 +16,16 @@ var FRICTION_FACTOR = 0.025
   , TRACK_OFFSET_X = 350
   , TRACK_OFFSET_Y = 250
   , FRAME_WIDTH = 42
-  , FRAME_HEIGHT = 42;
+  , FRAME_HEIGHT = 42
+  , RIGHT_TURN_BOUNDS = {
+      x1: (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2),
+      y1: 0,
+      x2: CANVAS_WIDTH,
+      y2: CANVAS_HEIGHT
+    }
+  , LEFT_TURN_BOUNDS = {
+      x1: 0,
+      y1: 0,
+      x2: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
+      y2: CANVAS_HEIGHT
+    };
