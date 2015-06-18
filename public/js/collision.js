@@ -36,12 +36,29 @@ var Collision = function() {
     }
   }
 
+  function circleCircleOuter(circle1, circle2, bounds) {
+    var dx = circle2.x - circle1.x
+      , dy = circle2.y - circle1.y
+      , distance = Math.sqrt(dx * dx + dy * dy);
+
+    if ((circle1.x > bounds.x1 && circle1.x < bounds.x2)
+       && (circle1.y > bounds.y1 && circle1.y < bounds.y2)) {
+      console.log('inside');
+      if (distance > circle1.r + circle2.r) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   function getDistance(x1, y1, x2, y2) {
     return Math.sqrt((x1-x2)^2+(y1-y2)^2);
   }
 
   return {
     rectCircle: rectCircle,
-    circleCircle: circleCircle
-  }
+    circleCircle: circleCircle,
+    circleCircleOuter: circleCircleOuter
+  };
 };

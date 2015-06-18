@@ -12,13 +12,15 @@ function tick() {
 }
 
 function update() {
-  var trackRectObjects = track.getRectDimensions()
-    , trackCircleObjects = track.getCircleDimensions()
+  var trackInnerRectObjects = track.getInnerRectDimensions()
+    , trackInnerCircleObjects = track.getInnerCircleDimensions()
+    , trackOuterRectObjects = track.getOuterRectDimensions()
+    , trackOuterCircleObjects = track.getOuterCircleDimensions()
     , localPlayerMask = localPlayer.getMask()
     , collisionStatus = false;
 
-  if (trackRectObjects && localPlayerMask) {
-    trackRectObjects.forEach(function(item) {
+  if (trackInnerRectObjects && localPlayerMask) {
+    trackInnerRectObjects.forEach(function(item) {
       if (collision.rectCircle(
         localPlayerMask,
         item)
@@ -28,14 +30,36 @@ function update() {
     });
   }
 
-  if (trackCircleObjects && localPlayerMask) {
-    trackCircleObjects.forEach(function(item) {
+  if (trackInnerCircleObjects && localPlayerMask) {
+    trackInnerCircleObjects.forEach(function(item) {
       if (collision.circleCircle(
         localPlayerMask,
         item)
       ) {
         collisionStatus = true;
-      };
+      }
+    });
+  }
+
+  if (trackOuterRectObjects && localPlayerMask) {
+    trackOuterRectObjects.forEach(function(item) {
+      if (collision.rectCircle(
+        localPlayerMask,
+        item)
+      ) {
+        collisionStatus = true;
+      }
+    });
+  }
+
+  if (trackOuterCircleObjects && localPlayerMask) {
+    trackOuterCircleObjects.forEach(function(item) {
+      if (collision.circleCircleOuter(
+        localPlayerMask,
+        item)
+      ) {
+        //collisionStatus = true;
+      }
     });
   }
 

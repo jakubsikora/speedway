@@ -4,18 +4,17 @@ var Track = function() {
   var stadiumGrass = new createjs.Shape()
     , stadiumCurb = new createjs.Shape()
     , stadiumBand = new createjs.Shape()
-    , stadiumBandEdge = new createjs.Shape();
+    , stadiumBandEdge = new createjs.Shape()
+    , x1 = (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2)
+    , y1 = (CANVAS_HEIGHT / 2) - (GRASS_HEIGHT / 2)
+    , x2 = (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2)
+    , y2 = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2)
+    , bandx1 = x1
+    , bandy1 = y1 - TRACK_OFFSET_Y
+    , bandx2 = x2
+    , bandy2 = y2 + TRACK_OFFSET_Y;
 
   function init() {
-    var x1 = (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2)
-      , y1 = (CANVAS_HEIGHT / 2) - (GRASS_HEIGHT / 2)
-      , x2 = (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2)
-      , y2 = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2)
-      , bandx1 = x1
-      , bandy1 = y1 - TRACK_OFFSET_Y
-      , bandx2 = x2
-      , bandy2 = y2 + TRACK_OFFSET_Y;
-
     stadiumGrass.graphics
       .setStrokeStyle(1)
       .beginStroke("#555555")
@@ -124,31 +123,55 @@ var Track = function() {
 
   }
 
-  function getRectDimensions() {
+  function getInnerRectDimensions() {
     return [{
-      x: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
-      y: (CANVAS_HEIGHT / 2) - (GRASS_HEIGHT / 2),
+      x: x1,
+      y: y1,
       width: GRASS_WIDTH,
       height: GRASS_HEIGHT
     }];
   }
 
-  function getCircleDimensions() {
+  function getInnerCircleDimensions() {
     return [{
-      x: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
+      x: x1,
       y: (CANVAS_HEIGHT / 2),
       r: GRASS_OFFSET - 35
     }, {
-      x: (CANVAS_WIDTH / 2) + (GRASS_WIDTH / 2),
+      x: x2,
       y: (CANVAS_HEIGHT / 2),
       r: GRASS_OFFSET - 35
+    }];
+  }
+
+  function getOuterRectDimensions() {
+    return [{
+      x: bandx1,
+      y: bandy1,
+      width: bandx2 - bandx1,
+      height: 6
+    }, {
+      x: bandx1,
+      y: bandy2,
+      width: bandx2 - bandx1,
+      height: 6
+    }];
+  }
+
+  function getOuterCircleDimensions() {
+    return [{
+      x: x2,
+      y: (CANVAS_HEIGHT / 2),
+      r: TRACK_OFFSET_X - 25
     }];
   }
 
   return {
     init: init,
     update: update,
-    getRectDimensions: getRectDimensions,
-    getCircleDimensions: getCircleDimensions
+    getInnerRectDimensions: getInnerRectDimensions,
+    getInnerCircleDimensions: getInnerCircleDimensions,
+    getOuterRectDimensions: getOuterRectDimensions,
+    getOuterCircleDimensions: getOuterCircleDimensions
   };
 };
