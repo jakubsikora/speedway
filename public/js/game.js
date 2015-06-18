@@ -5,7 +5,8 @@ var canvas
   , keys = new Keys()
   , track = new Track()
   , localPlayer = new Bike()
-  , collision = new Collision();
+  , collision = new Collision()
+  , ai = [];
 
 function tick() {
   stage.update();
@@ -65,6 +66,12 @@ function update() {
 
   localPlayer.setCollision(collisionStatus);
   localPlayer.update();
+
+  if (ai.length) {
+    ai.forEach(function(item) {
+      item.update();
+    });
+  }
 }
 
 function setEventHandlers() {
@@ -89,6 +96,7 @@ function init() {
 
   localPlayer.init();
   track.init();
+  ai.push(new AI());
 
   setEventHandlers();
 }
