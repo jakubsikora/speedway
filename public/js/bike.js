@@ -13,8 +13,7 @@ var Bike = function() {
     , sprite = null
     , img = new Image()
     , mapping = new Mapping()
-    , mask = new Mask(FRAME_HEIGHT / 2)
-    , collision = new Collision();
+    , mask = new Mask(FRAME_HEIGHT / 2);
 
   function init() {
     img.onload = handleImageLoad;

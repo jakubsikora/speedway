@@ -6,6 +6,7 @@ var canvas
   , track = new Track()
   , localPlayer = new Bike()
   , collision = new Collision()
+  , waypoint = new Waypoint()
   , ai = [];
 
 function tick() {
@@ -85,6 +86,8 @@ function setEventHandlers() {
 }
 
 function init() {
+  var tempAI;
+
   canvas = document.getElementById('canvas');
   stage = new createjs.Stage(canvas);
   stage.mouseEventsEnabled = true;
@@ -96,7 +99,13 @@ function init() {
 
   localPlayer.init();
   track.init();
-  ai.push(new AI());
+  waypoint.init();
+
+  for(var i = 0; i < AI_NUMBER; i++) {
+    tempAI = new AI();
+    tempAI.init();
+    ai.push(tempAI);
+  }
 
   setEventHandlers();
 }

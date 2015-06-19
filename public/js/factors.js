@@ -28,4 +28,7 @@ var FRICTION_FACTOR = 0.025
       y1: 0,
       x2: (CANVAS_WIDTH / 2) - (GRASS_WIDTH / 2),
       y2: CANVAS_HEIGHT
-    };
+    }
+  , WAYPOINT_OFFSET = 10
+  , WAYPOINT_DISTANCE = 60
+  , AI_NUMBER = 1;
