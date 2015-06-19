@@ -5,7 +5,7 @@ var AI = function() {
     , thrust = false
     , clutch = false
     , clutchFactor = 1
-    , friction = FRICTION_FACTOR * 10
+    , friction = FRICTION_FACTOR * 8
     , angle = 0
     , angleVel = 0
     , sprite = null
@@ -14,7 +14,8 @@ var AI = function() {
     , mask = new Mask(FRAME_HEIGHT / 2)
     , waypoints
     , line = new createjs.Shape()
-    , nextLine = new createjs.Shape();
+    , nextLine = new createjs.Shape()
+    , offset = 0;
 
   function init() {
     img.onload = handleImageLoad;
@@ -133,21 +134,37 @@ var AI = function() {
     var dx = sprite.x - waypoint.x
       , dy = sprite.y - waypoint.y
       , distance = Math.sqrt(dx * dx + dy * dy)
-      , maxDistance = 150
-      , minDistance = 50;
+      , maxDistance = 130
+      , minDistance = 50
+      , maxOffset = 3;
 
-    console.log(distance);
+
+    console.log(offset);
 
     if (distance > maxDistance) {
-      console.log('turn left');
-      angleVel = -TURN_ANGLE;
-      sprite.reverse();
-    } else if(distance < minDistance) {
-      console.log('turn right');
-      angleVel = TURN_ANGLE;
-      sprite.forward();
-    } else {
+      if (offset === 0) {
+        angleVel = -TURN_ANGLE;
+        sprite.reverse();
+        offset++;
+        console.log('turn left');
+      } else if(offset < maxOffset) {
+        angleVel = 0;
+        console.log('turn left - up');
+        offset++;
+      } else {
+        console.log('up');
+        angleVel = 0;
+        offset = 0;
+      }
+    }
+    //  else if(distance < minDistance) {
+    //   console.log('turn right');
+    //   angleVel = TURN_ANGLE;
+    //   sprite.forward();
+     else {
+      console.log('up');
       angleVel = 0;
+      offset = 0;
     }
 
   }
