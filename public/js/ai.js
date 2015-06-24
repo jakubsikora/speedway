@@ -263,6 +263,7 @@ var AI = function() {
       '<ul>' +
       '<li>Vel: ' + velocity + '</li>' +
       '<li>Dist: ' + distance.toFixed(2) + '</li>' +
+      '<li>Frame: ' + sprite.currentFrame + '</li>' +
       '<li>Pos: ' + sprite.x.toFixed(0) + ', ' + sprite.y.toFixed(0) + '</li>' +
       '<li>Angle: ' + angle.toFixed(2) + '</li>' +
       '<li>Angle Vel: ' + angleVel.toFixed(2) + '</li>' +
@@ -273,6 +274,25 @@ var AI = function() {
       point = waypoints[0];
 
       var normPoints = normalizePoints(sprite, point);
+
+      bdx = normPoints.a.x - normPoints.b.x;
+      bdy = normPoints.a.y - normPoints.b.y;
+      adx = normPoints.a.x - normPoints.b.x;
+      ady = normPoints.a.y - normPoints.a.y;
+
+      vectA = [adx, ady];
+      vectB = [bdx, bdy];
+
+      distB = Math.sqrt(bdx * bdx + bdy * bdy);
+      distA = Math.sqrt(adx * adx + ady * ady);
+
+      distance = distB;
+
+      if (distance <= 70) {
+        thrust = false;
+      } else {
+        thrust = true;
+      }
 
       if (normPoints.b.x > 0) {
         up = true;
@@ -306,25 +326,6 @@ var AI = function() {
           right = true;
           angleFactor = -1;
         }
-      }
-
-      bdx = normPoints.a.x - normPoints.b.x;
-      bdy = normPoints.a.y - normPoints.b.y;
-      adx = normPoints.a.x - normPoints.b.x;
-      ady = normPoints.a.y - normPoints.a.y;
-
-      vectA = [adx, ady];
-      vectB = [bdx, bdy];
-
-      distB = Math.sqrt(bdx * bdx + bdy * bdy);
-      distA = Math.sqrt(adx * adx + ady * ady);
-
-      distance = distB;
-
-      if (distance <= 70) {
-        thrust = false;
-      } else {
-        thrust = true;
       }
 
       normVectA = normalize(distA, vectA[0], vectA[1]);
@@ -383,6 +384,76 @@ var AI = function() {
     return {
       a: a,
       b: b
+    };
+  }
+
+  function animate() {
+    // TODO mappings
+    var map = {
+      '0.00': '16',
+      '-0.10': '15',
+      '-0.20': '14',
+      '-0.29': '13',
+      '-0.39': '12',
+      '-0.49': '11',
+      '-0.59': '10',
+      '-0.69': '9',
+      '-0.79': '8',
+      '-0.88': '7',
+      '-0.98': '6',
+      '-1.08': '5',
+      '-1.18': '4',
+      '-1.28': '3',
+      '-1.37': '2',
+      '-1.47': '1',
+      '-1.57': '0',
+      '-1.67': '63',
+      '-1.77': '62',
+      '-1.87': '61',
+      '-1.96': '60',
+      '-2.06': '59',
+      '-2.16': '58',
+      '-2.26': '57',
+      '-2.36': '56',
+      '-2.45': '55',
+      '-2.55': '54',
+      '-2.65': '53',
+      '-2.75': '52',
+      '-2.85': '51',
+      '-2.95': '50',
+      '-3.04': '49',
+      '-3.14': '48',
+      '-3.24': '47',
+      '-3.34': '46',
+      '-3.44': '45',
+      '-3.53': '44',
+      '-3.63': '43',
+      '-3.73': '42',
+      '-3.83': '41',
+      '-3.93': '40',
+      '-4.03': '39',
+      '-4.12': '38',
+      '-4.22': '37',
+      '-4.32': '36',
+      '-4.42': '35',
+      '-4.52': '34',
+      '-4.61': '33',
+      '-4.71': '32',
+      '-4.81': '31',
+      '-4.91': '30',
+      '-5.01': '29',
+      '-5.10': '28',
+      '-5.20': '27',
+      '-5.30': '26',
+      '-5.40': '25',
+      '-5.50': '24',
+      '-5.60': '23',
+      '-5.69': '22',
+      '-5.79': '21',
+      '-5.89': '20',
+      '-5.99': '19',
+      '-6.09': '18',
+      '-6.18': '17'
     };
   }
 
