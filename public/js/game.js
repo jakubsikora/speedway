@@ -78,6 +78,7 @@ function update() {
 function setEventHandlers() {
   window.addEventListener("keydown", onKeydown, false);
   window.addEventListener("keyup", onKeyup, false);
+  canvas.addEventListener("mousedown", onMouseDown, false);
 
   setInterval(update, 100/3);
 
@@ -120,4 +121,11 @@ function onKeyup(e) {
   if (localPlayer) {
     keys.onKeyUp(e);
   }
+}
+
+function onMouseDown(e) {
+  var x = e.x
+    , y = e.y;
+
+  waypoint.draw(x,y);
 }

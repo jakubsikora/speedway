@@ -3,30 +3,30 @@ var Waypoint = function() {
     , y = (CANVAS_HEIGHT / 2) + (GRASS_HEIGHT / 2) + WAYPOINT_OFFSET;
   var waypoints = [
     // {x: x + 2 * WAYPOINT_DISTANCE, y: y + 50},
-    {x: x + 3 * WAYPOINT_DISTANCE, y: y + 50},
+    // {x: x + 3 * WAYPOINT_DISTANCE, y: y + 50},
     // {x: x + 4 * WAYPOINT_DISTANCE, y: y + 50},
     // {x: x + 5 * WAYPOINT_DISTANCE, y: y + 50},
-    {x: x + 6 * WAYPOINT_DISTANCE, y: y + 20},
-    {x: x + 7 * WAYPOINT_DISTANCE, y: y - 130},
-    {x: x + 7 * WAYPOINT_DISTANCE, y: y - 220},
-    {x: x + 5 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x + 4 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x + 3 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x + 2 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x + 1 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x, y: y - 350},
-    {x: x - 1 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x - 2 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x - 3 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x - 4 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x - 5 * WAYPOINT_DISTANCE, y: y - 350},
-    {x: x - 6.6 * WAYPOINT_DISTANCE, y: y - 250},
-    {x: x - 7 * WAYPOINT_DISTANCE, y: y - 170},
-    {x: x - 6.9 * WAYPOINT_DISTANCE, y: y - 80},
-    {x: x - 5 * WAYPOINT_DISTANCE, y: y + 50},
+    // {x: x + 6 * WAYPOINT_DISTANCE, y: y + 20},
+    // {x: x + 7 * WAYPOINT_DISTANCE, y: y - 130},
+    // {x: x + 7 * WAYPOINT_DISTANCE, y: y - 220},
+    // {x: x + 5 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x + 4 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x + 3 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x + 2 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x + 1 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x, y: y - 350},
+    // {x: x - 1 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x - 2 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x - 3 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x - 4 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x - 5 * WAYPOINT_DISTANCE, y: y - 350},
+    // {x: x - 6.6 * WAYPOINT_DISTANCE, y: y - 250},
+    // {x: x - 7 * WAYPOINT_DISTANCE, y: y - 170},
+    // {x: x - 6.9 * WAYPOINT_DISTANCE, y: y - 80},
+    // {x: x - 5 * WAYPOINT_DISTANCE, y: y + 50},
     // {x: x - 4 * WAYPOINT_DISTANCE, y: y + 50},
     // {x: x - 3 * WAYPOINT_DISTANCE, y: y + 50},
-    {x: x - 2 * WAYPOINT_DISTANCE, y: y + 50}
+    // {x: x - 2 * WAYPOINT_DISTANCE, y: y + 50}
   ];
 
   function init() {
@@ -38,6 +38,8 @@ var Waypoint = function() {
   function draw(x, y) {
     var point = new createjs.Shape();
 
+    removePoints();
+
     point.graphics
       .setStrokeStyle(1)
       .beginStroke("#FF0000")
@@ -46,6 +48,15 @@ var Waypoint = function() {
     point.y = y;
 
     stage.addChild(point);
+    waypoints.push(point);
+  }
+
+  function removePoints() {
+    waypoints.forEach(function(point) {
+      stage.removeChild(point);
+    });
+
+    waypoints = [];
   }
 
   function getWaypoints() {
@@ -54,6 +65,7 @@ var Waypoint = function() {
 
   return {
     init: init,
-    getWaypoints: getWaypoints
+    getWaypoints: getWaypoints,
+    draw: draw
   };
 };

@@ -2,7 +2,7 @@ var AI = function() {
   var forward = [0, 0]
     , velXY = [0, 0]
     , velocity = 0
-    , distance = null
+    , distance = 0
     , thrust = false
     , clutch = false
     , clutchFactor = 1
@@ -16,6 +16,8 @@ var AI = function() {
     , waypoints
     , line = new createjs.Shape()
     , nextLine = new createjs.Shape()
+    , aLine = new createjs.Shape()
+    , bLine = new createjs.Shape()
     , offset = 0;
 
   function init() {
@@ -52,6 +54,8 @@ var AI = function() {
     waypoints = waypoint.getWaypoints();
     stage.addChild(line);
     stage.addChild(nextLine);
+    stage.addChild(aLine);
+    stage.addChild(bLine);
   }
 
   function angleToVector(newAngle) {
@@ -74,7 +78,6 @@ var AI = function() {
 
     forward = angleToVector(angle);
 
-
     if (thrust) {
       velXY[0] += forward[0] * SPEED;
       velXY[1] += forward[1] * SPEED;
@@ -83,11 +86,11 @@ var AI = function() {
     velocity = Math.sqrt((velXY[0] * velXY[0]) + (velXY[1] * velXY[1]));
     velocity = parseFloat(velocity).toFixed(2);
 
-    if (velocity >= AI_MAX_SPEED) {
-      thrust = false;
-    } else {
-      thrust = true;
-    }
+    // if (velocity >= AI_MAX_SPEED) {
+    //   thrust = false;
+    // } else {
+    //   thrust = true;
+    // }
 
     sprite.x += velXY[0];
     sprite.y += velXY[1];
@@ -105,7 +108,7 @@ var AI = function() {
     }
 
     mask.update(sprite.x, sprite.y);
-    findPoint();
+    //findPoint();
     updateHud();
   }
 
@@ -143,8 +146,8 @@ var AI = function() {
     }
 
     //lookAtPoint(line, '#FF0000', waypoint);
-    lookAtPoint(nextLine, '#FFFF00', waypoints[next]);
-    moveToPoint(waypoints[next]);
+    //lookAtPoint(nextLine, '#FFFF00', waypoints[next]);
+    //moveToPoint(waypoints[next]);
   }
 
   function lookAtPoint(l, color, waypoint) {
@@ -220,10 +223,26 @@ var AI = function() {
     }
   }
 
-  function updateHud() {
-    var hud = document.querySelector('.bikeHud');
+  function drawVect(l, color, x1, y1, x2, y2) {
+    l.graphics
+      .clear()
+      .setStrokeStyle(1)
+      .beginStroke(color)
+      .moveTo(x1, y1)
+      .lineTo(x2, y2);
+  }
 
-    hud.innerHTML = '' +
+  function updateHud() {
+    var hud = document.querySelector('.bikeHud')
+      , html = ''
+      , dx
+      , dy
+      , b
+      , a;
+
+    waypoints = waypoint.getWaypoints();
+
+    html = '' +
       '<ul>' +
       '<li>Vel: ' + velocity + '</li>' +
       '<li>Dist: ' + distance.toFixed(2) + '</li>' +
@@ -231,8 +250,31 @@ var AI = function() {
       '<li>Y: ' + sprite.y.toFixed(0) + '</li>' +
       '<li>Angle: ' + angle + '</li>' +
       '<li>Angle Vel: ' + angleVel + '</li>' +
-      '<li>Offset: ' + offset + '</li>' +
-      '</ul>';
+      '<li>Offset: ' + offset + '</li>';
+
+    if (waypoints.length) {
+      point = waypoints[0];
+      bdx = sprite.x - point.x;
+      bdy = sprite.y - point.y;
+      adx = sprite.x - point.x;
+      ady = sprite.y - sprite.y;
+
+      b = Math.sqrt(bdx * bdx + bdy * bdy);
+      a = Math.sqrt(adx * adx + ady * ady);
+
+      drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
+      drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
+
+      html += '' +
+        '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
+        '<li>vect |A|: ' + a.toFixed(0) + '</li>' +
+        '<li>vect |B|: ' + b.toFixed(0) + '</li>';
+    }
+
+    html += '</ul>';
+
+
+    hud.innerHTML = html;
   }
 
   return {
