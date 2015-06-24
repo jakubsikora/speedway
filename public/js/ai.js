@@ -254,7 +254,8 @@ var AI = function() {
       , up = false
       , down = false
       , left = false
-      , right = false;
+      , right = false
+      , angleFactor = 1;
 
     waypoints = waypoint.getWaypoints();
 
@@ -280,11 +281,13 @@ var AI = function() {
         if (normPoints.b.y > 0) {
           left = false;
           right = true;
+          angleFactor = 1;
         }
 
         if (normPoints.b.y <= 0) {
           left = true;
           right = false;
+          angleFactor = -1;
         }
       }
 
@@ -295,11 +298,13 @@ var AI = function() {
         if (normPoints.b.y > 0) {
           left = true;
           right = false;
+          angleFactor = 1;
         }
 
         if (normPoints.b.y <= 0) {
           left = false;
           right = true;
+          angleFactor = -1;
         }
       }
 
@@ -334,7 +339,7 @@ var AI = function() {
       alpha = down ? 180 - alpha : alpha;
       radians = alpha * Math.PI / 180;
 
-      angle = left ? -radians : radians;
+      angle = radians * angleFactor;
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
