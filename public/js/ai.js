@@ -235,6 +235,10 @@ var AI = function() {
   function updateHud() {
     var hud = document.querySelector('.bikeHud')
       , html = ''
+      , vectA = []
+      , vectB = []
+      , normVectA = []
+      , normVectB = []
       , adx
       , ady
       , bdx
@@ -243,7 +247,9 @@ var AI = function() {
       , distB
       , distA
       , normB
-      , normA;
+      , normA
+      , cos
+      , alpha;
 
     waypoints = waypoint.getWaypoints();
 
@@ -264,13 +270,20 @@ var AI = function() {
       adx = sprite.x - point.x;
       ady = sprite.y - sprite.y;
 
+      vectA = [adx, ady];
+      vectB = [bdx, bdy];
+
       distB = Math.sqrt(bdx * bdx + bdy * bdy);
       distA = Math.sqrt(adx * adx + ady * ady);
 
-      normB = distB / distB;
-      normA = distA / distB;
+      normVectA = normalize(distA, vectA[0], vectA[1]);
+      normVectB = normalize(distB, vectB[0], vectB[1]);
 
-      var cos = (adx * bdx + ady * bdy) / (distA * distB);
+      distA = Math.sqrt(normVectA[0] * normVectA[0] + normVectA[1] * normVectA[1]);
+      distB = Math.sqrt(normVectB[0] * normVectB[0] + normVectB[1] * normVectB[1]);
+
+      cos = (normVectA[0] * normVectB[0] + normVectA[1] * normVectB[1]) / (distA * distB);
+      alpha = Math.acos(cos) * 180 / Math.PI;
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
@@ -278,19 +291,25 @@ var AI = function() {
       html += '' +
         '<li>WAYPOINT</li>' +
         '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
-        '<li>vect A: [' + adx + ',' + ady + ']</li>' +
-        '<li>vect B: [' + bdx + ',' + bdy + ']</li>' +
+        '<li>vect A: [' + vectA[0] + ',' + vectA[1] + ']</li>' +
+        '<li>vect A: [' + vectB[0] + ',' + vectB[1] + ']</li>' +
+        '<li>norm vect A: [' + normVectA[0].toFixed(2) + ',' + normVectA[1].toFixed(2) + ']</li>' +
+        '<li>norm vect B: [' + normVectB[0].toFixed(2) + ',' + normVectB[1].toFixed(2) + ']</li>' +
+
         '<li>vect |A|: ' + distA.toFixed(2) + '</li>' +
         '<li>vect |B|: ' + distB.toFixed(2) + '</li>' +
-        '<li>norm vect |A|: ' + normA.toFixed(2) + '</li>' +
-        '<li>norm vect |B|: ' + normB.toFixed(2) + '</li>' +
-        '<li>cos a : ' + cos.toFixed(4) + '</li>';
+        '<li>cos &alpha; : ' + cos.toFixed(4) + '</li>' +
+        '<li>&alpha; : ' + alpha.toFixed(0) + '</li>';
     }
 
     html += '</ul>';
 
 
     hud.innerHTML = html;
+  }
+
+  function normalize(distance, x, y) {
+    return [x / distance, y / distance];
   }
 
   return {
