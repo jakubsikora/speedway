@@ -250,7 +250,11 @@ var AI = function() {
       , normA
       , cos
       , alpha
-      , radians;
+      , radians
+      , up = false
+      , back = false
+      , left = false
+      , right = false;
 
     waypoints = waypoint.getWaypoints();
 
@@ -266,10 +270,33 @@ var AI = function() {
 
     if (waypoints.length) {
       point = waypoints[0];
-      bdx = sprite.x - point.x;
-      bdy = sprite.y - point.y;
-      adx = sprite.x - point.x;
-      ady = sprite.y - sprite.y;
+
+      var normPoints = normalizePoints(sprite, point);
+
+      if (normPoints.b.x >= 0) {
+        up = true;
+        back = false;
+      }
+
+      if (normPoints.b.x <= 0) {
+        up = false;
+        back = true;
+      }
+
+      if (normPoints.b.y >= 0) {
+        left = false;
+        right = true;
+      }
+
+      if (normPoints.b.y <= 0) {
+        left = true;
+        right = false;
+      }
+
+      bdx = normPoints.a.x - normPoints.b.x;
+      bdy = normPoints.a.y - normPoints.b.y;
+      adx = normPoints.a.x - normPoints.b.x;
+      ady = normPoints.a.y - normPoints.a.y;
 
       vectA = [adx, ady];
       vectB = [bdx, bdy];
@@ -295,7 +322,7 @@ var AI = function() {
       alpha = Math.acos(cos) * 180 / Math.PI;
       radians = alpha * Math.PI / 180;
 
-      angle = radians;
+      angle = left ? -radians : radians;
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
@@ -304,15 +331,19 @@ var AI = function() {
         '<li>WAYPOINT</li>' +
         '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
         '<li>vect A: [' + vectA[0].toFixed() + ',' + vectA[1].toFixed() + ']</li>' +
-        '<li>vect A: [' + vectB[0].toFixed() + ',' + vectB[1].toFixed() + ']</li>' +
+        '<li>vect B: [' + vectB[0].toFixed() + ',' + vectB[1].toFixed() + ']</li>' +
         '<li>norm vect A: [' + normVectA[0].toFixed(2) + ',' + normVectA[1].toFixed(2) + ']</li>' +
         '<li>norm vect B: [' + normVectB[0].toFixed(2) + ',' + normVectB[1].toFixed(2) + ']</li>' +
 
         '<li>vect |A|: ' + distA.toFixed(2) + '</li>' +
         '<li>vect |B|: ' + distB.toFixed(2) + '</li>' +
-        '<li>cos &alpha; : ' + cos.toFixed(4) + '</li>' +
-        '<li>&alpha; : ' + alpha.toFixed(0) + '</li>' +
-        '<li>Rad : ' + radians.toFixed(4) + '</li>';
+        '<li>cos &alpha;: ' + cos.toFixed(4) + '</li>' +
+        '<li>&alpha;: ' + alpha.toFixed(0) + '</li>' +
+        '<li>Rad: ' + radians.toFixed(4) + '</li>' +
+        '<li>Up: ' + up + '</li>' +
+        '<li>Back: ' + back + '</li>' +
+        '<li>Left: ' + left + '</li>' +
+        '<li>Right: ' + right + '</li>';
     }
 
     html += '</ul>';
@@ -323,6 +354,19 @@ var AI = function() {
 
   function normalize(distance, x, y) {
     return [x / distance, y / distance];
+  }
+
+  function normalizePoints(point1, point2) {
+    var a = { x: 0, y: 0}
+      , b = { x: 0, y: 0};
+
+    b.x = point2.x - point1.x;
+    b.y = point2.y - point1.y;
+
+    return {
+      a: a,
+      b: b
+    };
   }
 
   return {
