@@ -246,11 +246,11 @@ var AI = function() {
       '<ul>' +
       '<li>Vel: ' + velocity + '</li>' +
       '<li>Dist: ' + distance.toFixed(2) + '</li>' +
-      '<li>X: ' + sprite.x.toFixed(0) + '</li>' +
-      '<li>Y: ' + sprite.y.toFixed(0) + '</li>' +
+      '<li>Pos: ' + sprite.x.toFixed(0) + ', ' + sprite.y.toFixed(0) + '</li>' +
       '<li>Angle: ' + angle + '</li>' +
       '<li>Angle Vel: ' + angleVel + '</li>' +
-      '<li>Offset: ' + offset + '</li>';
+      '<li>Offset: ' + offset + '</li>' +
+      '<li>Forward: (' + forward[0] + ', ' + forward[1] + ')</li>';
 
     if (waypoints.length) {
       point = waypoints[0];
@@ -266,6 +266,7 @@ var AI = function() {
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
 
       html += '' +
+        '<li><hr/></li>' +
         '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
         '<li>vect |A|: ' + a.toFixed(0) + '</li>' +
         '<li>vect |B|: ' + b.toFixed(0) + '</li>';
