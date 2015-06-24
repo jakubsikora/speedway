@@ -270,7 +270,7 @@ var AI = function() {
       normB = distB / distB;
       normA = distA / distB;
 
-      var cos = 0;
+      var cos = (adx * bdx + ady * bdy) / (distA * distB);
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
@@ -284,7 +284,7 @@ var AI = function() {
         '<li>vect |B|: ' + distB.toFixed(2) + '</li>' +
         '<li>norm vect |A|: ' + normA.toFixed(2) + '</li>' +
         '<li>norm vect |B|: ' + normB.toFixed(2) + '</li>' +
-        '<li>cos a : ' + cos + '</li>';
+        '<li>cos a : ' + cos.toFixed(4) + '</li>';
     }
 
     html += '</ul>';
