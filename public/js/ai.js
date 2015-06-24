@@ -235,10 +235,15 @@ var AI = function() {
   function updateHud() {
     var hud = document.querySelector('.bikeHud')
       , html = ''
-      , dx
-      , dy
-      , b
-      , a;
+      , adx
+      , ady
+      , bdx
+      , bdy
+      , point
+      , distB
+      , distA
+      , normB
+      , normA;
 
     waypoints = waypoint.getWaypoints();
 
@@ -259,17 +264,27 @@ var AI = function() {
       adx = sprite.x - point.x;
       ady = sprite.y - sprite.y;
 
-      b = Math.sqrt(bdx * bdx + bdy * bdy);
-      a = Math.sqrt(adx * adx + ady * ady);
+      distB = Math.sqrt(bdx * bdx + bdy * bdy);
+      distA = Math.sqrt(adx * adx + ady * ady);
+
+      normB = distB / distB;
+      normA = distA / distB;
+
+      var cos = 0;
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
 
       html += '' +
-        '<li><hr/></li>' +
+        '<li>WAYPOINT</li>' +
         '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
-        '<li>vect |A|: ' + a.toFixed(0) + '</li>' +
-        '<li>vect |B|: ' + b.toFixed(0) + '</li>';
+        '<li>vect A: [' + adx + ',' + ady + ']</li>' +
+        '<li>vect B: [' + bdx + ',' + bdy + ']</li>' +
+        '<li>vect |A|: ' + distA.toFixed(2) + '</li>' +
+        '<li>vect |B|: ' + distB.toFixed(2) + '</li>' +
+        '<li>norm vect |A|: ' + normA.toFixed(2) + '</li>' +
+        '<li>norm vect |B|: ' + normB.toFixed(2) + '</li>' +
+        '<li>cos a : ' + cos + '</li>';
     }
 
     html += '</ul>';
