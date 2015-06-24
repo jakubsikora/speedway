@@ -233,7 +233,7 @@ var AI = function() {
   }
 
   function updateHud() {
-    var hud = document.querySelector('.bikeHud')
+    var hud = document.querySelector('.aiHud')
       , html = ''
       , vectA = []
       , vectB = []
@@ -249,7 +249,8 @@ var AI = function() {
       , normB
       , normA
       , cos
-      , alpha;
+      , alpha
+      , radians;
 
     waypoints = waypoint.getWaypoints();
 
@@ -258,10 +259,10 @@ var AI = function() {
       '<li>Vel: ' + velocity + '</li>' +
       '<li>Dist: ' + distance.toFixed(2) + '</li>' +
       '<li>Pos: ' + sprite.x.toFixed(0) + ', ' + sprite.y.toFixed(0) + '</li>' +
-      '<li>Angle: ' + angle + '</li>' +
-      '<li>Angle Vel: ' + angleVel + '</li>' +
+      '<li>Angle: ' + angle.toFixed(2) + '</li>' +
+      '<li>Angle Vel: ' + angleVel.toFixed(2) + '</li>' +
       '<li>Offset: ' + offset + '</li>' +
-      '<li>Forward: (' + forward[0] + ', ' + forward[1] + ')</li>';
+      '<li>Forward: (' + forward[0].toFixed(2) + ', ' + forward[1].toFixed(2) + ')</li>';
 
     if (waypoints.length) {
       point = waypoints[0];
@@ -276,6 +277,14 @@ var AI = function() {
       distB = Math.sqrt(bdx * bdx + bdy * bdy);
       distA = Math.sqrt(adx * adx + ady * ady);
 
+      distance = distB;
+
+      if (distance <= 70) {
+        thrust = false;
+      } else {
+        thrust = true;
+      }
+
       normVectA = normalize(distA, vectA[0], vectA[1]);
       normVectB = normalize(distB, vectB[0], vectB[1]);
 
@@ -284,6 +293,9 @@ var AI = function() {
 
       cos = (normVectA[0] * normVectB[0] + normVectA[1] * normVectB[1]) / (distA * distB);
       alpha = Math.acos(cos) * 180 / Math.PI;
+      radians = alpha * Math.PI / 180;
+
+      angle = radians;
 
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
@@ -291,15 +303,16 @@ var AI = function() {
       html += '' +
         '<li>WAYPOINT</li>' +
         '<li>Waypoint: (' + point.x + ', ' + point.y + ')</li>' +
-        '<li>vect A: [' + vectA[0] + ',' + vectA[1] + ']</li>' +
-        '<li>vect A: [' + vectB[0] + ',' + vectB[1] + ']</li>' +
+        '<li>vect A: [' + vectA[0].toFixed() + ',' + vectA[1].toFixed() + ']</li>' +
+        '<li>vect A: [' + vectB[0].toFixed() + ',' + vectB[1].toFixed() + ']</li>' +
         '<li>norm vect A: [' + normVectA[0].toFixed(2) + ',' + normVectA[1].toFixed(2) + ']</li>' +
         '<li>norm vect B: [' + normVectB[0].toFixed(2) + ',' + normVectB[1].toFixed(2) + ']</li>' +
 
         '<li>vect |A|: ' + distA.toFixed(2) + '</li>' +
         '<li>vect |B|: ' + distB.toFixed(2) + '</li>' +
         '<li>cos &alpha; : ' + cos.toFixed(4) + '</li>' +
-        '<li>&alpha; : ' + alpha.toFixed(0) + '</li>';
+        '<li>&alpha; : ' + alpha.toFixed(0) + '</li>' +
+        '<li>Rad : ' + radians.toFixed(4) + '</li>';
     }
 
     html += '</ul>';

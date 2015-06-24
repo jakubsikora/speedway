@@ -3,11 +3,21 @@
   background: #8F928B;
 }
 
-.bikeHud {
+.aiHud {
   font-size: 0.8em;
   position: absolute;
   top: 50px;
   left: 0;
+  color: #000;
+  width: 180px;
+  background: #FFF;
+}
+
+.bikeHud {
+  font-size: 0.8em;
+  position: absolute;
+  top: 50px;
+  right: 0;
   color: #000;
   width: 180px;
   background: #FFF;

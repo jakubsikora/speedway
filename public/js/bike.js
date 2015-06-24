@@ -147,6 +147,7 @@ var Bike = function() {
     adjustFrameMapping();
     //log();
     mask.update(sprite.x, sprite.y);
+    updateHud();
   }
 
   function getMask() {
@@ -161,6 +162,21 @@ var Bike = function() {
     } else {
       friction = FRICTION_FACTOR;
     }
+  }
+
+  function updateHud() {
+    var hud = document.querySelector('.bikeHud');
+    var html = '' +
+      '<ul>' +
+      '<li>Vel: ' + velocity + '</li>' +
+      '<li>Pos: ' + sprite.x.toFixed(0) + ', ' + sprite.y.toFixed(0) + '</li>' +
+      '<li>Angle: ' + angle.toFixed(2) + '</li>' +
+      '<li>Angle Vel: ' + angleVel.toFixed(2) + '</li>' +
+      '<li>Forward: (' + forward[0].toFixed(2) + ', ' + forward[1].toFixed(2) + ')</li>';
+
+    html += '</ul>';
+
+    hud.innerHTML = html;
   }
 
   return {
