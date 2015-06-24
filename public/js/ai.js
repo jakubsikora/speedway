@@ -252,7 +252,7 @@ var AI = function() {
       , alpha
       , radians
       , up = false
-      , back = false
+      , down = false
       , left = false
       , right = false;
 
@@ -273,24 +273,34 @@ var AI = function() {
 
       var normPoints = normalizePoints(sprite, point);
 
-      if (normPoints.b.x >= 0) {
+      if (normPoints.b.x > 0) {
         up = true;
-        back = false;
+        down = false;
+
+        if (normPoints.b.y > 0) {
+          left = false;
+          right = true;
+        }
+
+        if (normPoints.b.y <= 0) {
+          left = true;
+          right = false;
+        }
       }
 
       if (normPoints.b.x <= 0) {
         up = false;
-        back = true;
-      }
+        down = true;
 
-      if (normPoints.b.y >= 0) {
-        left = false;
-        right = true;
-      }
+        if (normPoints.b.y > 0) {
+          left = true;
+          right = false;
+        }
 
-      if (normPoints.b.y <= 0) {
-        left = true;
-        right = false;
+        if (normPoints.b.y <= 0) {
+          left = false;
+          right = true;
+        }
       }
 
       bdx = normPoints.a.x - normPoints.b.x;
@@ -320,6 +330,8 @@ var AI = function() {
 
       cos = (normVectA[0] * normVectB[0] + normVectA[1] * normVectB[1]) / (distA * distB);
       alpha = Math.acos(cos) * 180 / Math.PI;
+
+      alpha = down ? 180 - alpha : alpha;
       radians = alpha * Math.PI / 180;
 
       angle = left ? -radians : radians;
@@ -341,7 +353,7 @@ var AI = function() {
         '<li>&alpha;: ' + alpha.toFixed(0) + '</li>' +
         '<li>Rad: ' + radians.toFixed(4) + '</li>' +
         '<li>Up: ' + up + '</li>' +
-        '<li>Back: ' + back + '</li>' +
+        '<li>Down: ' + down + '</li>' +
         '<li>Left: ' + left + '</li>' +
         '<li>Right: ' + right + '</li>';
     }
