@@ -498,26 +498,30 @@ var AI = function() {
       return map.indexOf(mapEl);
     }
 
-    var index = 0
-      , currentAngle;
+    var tempAngle = getIndex(mapLeft, sprite.currentFrame);
+    console.log(mapLeft[tempAngle].angle > angle, mapLeft[tempAngle].angle, angle.toFixed(2));
+    if (mapLeft[tempAngle].angle > angle) sprite.reverse();
 
-    if (angle < 0) {
+    // var index = 0
+    //   , currentAngle;
 
-      found = false;
-      while (!found) {
-        index = getIndex(mapLeft, sprite.currentFrame);
-        var current = mapLeft[index];
-        console.log('frame angle:', current.angle, 'heading to:', angle.toFixed(2), 'frame: ', sprite.currentFrame);
+    // if (angle < 0) {
 
-        // console.log(current.angle, '>' , angle.toFixed(2), '<=', current.angle);
-        // debugger;
-        // if (current.angle > angle && angle <= current.angle) {
-        //   found = true;
-        // } else {
-        //   sprite.reverse();
-        // }
-      }
-    }
+    //   found = false;
+    //   while (!found) {
+    //     index = getIndex(mapLeft, sprite.currentFrame);
+    //     var current = mapLeft[index];
+    //     console.log('frame angle:', current.angle, 'heading to:', angle.toFixed(2), 'frame: ', sprite.currentFrame);
+
+    //     // console.log(current.angle, '>' , angle.toFixed(2), '<=', current.angle);
+    //     // debugger;
+    //     // if (current.angle > angle && angle <= current.angle) {
+    //     //   found = true;
+    //     // } else {
+    //     //   sprite.reverse();
+    //     // }
+    //   }
+    // }
 
 
 
