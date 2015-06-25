@@ -148,6 +148,7 @@ var Bike = function() {
     //log();
     mask.update(sprite.x, sprite.y);
     updateHud();
+    //console.log('{ frame: ' + sprite.currentFrame + ', angle: ' + angle.toFixed(2) + ' },');
   }
 
   function getMask() {

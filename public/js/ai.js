@@ -169,7 +169,7 @@ var AI = function() {
     distance = Math.sqrt(dx * dx + dy * dy);
 
     if (waypoint.y + 5 < sprite.y) {
-      handleTurningLeft();
+      //handleTurningLeft();
     } else if (waypoint.y - 1 > sprite.y) {
       if (offset > maxOffset && angle < 0.2) {
         console.log('turning right');
@@ -186,40 +186,6 @@ var AI = function() {
       console.log('up');
       angleVel = 0;
       offset = 0;
-    }
-  }
-
-  function checkTrackSection() {
-
-  }
-
-  function handleTurningLeft() {
-    var maxOffset = 5;
-
-    if (sprite.x > 350 && sprite.x < 950) {
-      if (offset > maxOffset && angle > -0.2) {
-        console.log('turning left');
-        angleVel = -TURN_ANGLE;
-        sprite.reverse();
-        offset = 0;
-      } else {
-        console.log('left up');
-        angleVel = 0;
-      }
-
-      offset++;
-    } else if (sprite.x > 950) {
-      if (offset > maxOffset && angle > -2.4) {
-        console.log('turning left');
-        angleVel = -TURN_ANGLE;
-        sprite.reverse();
-        offset = 0;
-      } else {
-        console.log('left up');
-        angleVel = 0;
-      }
-
-      offset++;
     }
   }
 
@@ -342,6 +308,8 @@ var AI = function() {
 
       angle = radians * angleFactor;
 
+      if (thrust) animate(up, left);
+
       drawVect(aLine, '#00FF00', sprite.x, sprite.y, point.x, sprite.y);
       drawVect(bLine, '#FF0000', sprite.x, sprite.y, point.x, point.y);
 
@@ -387,74 +355,172 @@ var AI = function() {
     };
   }
 
-  function animate() {
+  function animate(up, left) {
     // TODO mappings
-    var map = {
-      '0.00': '16',
-      '-0.10': '15',
-      '-0.20': '14',
-      '-0.29': '13',
-      '-0.39': '12',
-      '-0.49': '11',
-      '-0.59': '10',
-      '-0.69': '9',
-      '-0.79': '8',
-      '-0.88': '7',
-      '-0.98': '6',
-      '-1.08': '5',
-      '-1.18': '4',
-      '-1.28': '3',
-      '-1.37': '2',
-      '-1.47': '1',
-      '-1.57': '0',
-      '-1.67': '63',
-      '-1.77': '62',
-      '-1.87': '61',
-      '-1.96': '60',
-      '-2.06': '59',
-      '-2.16': '58',
-      '-2.26': '57',
-      '-2.36': '56',
-      '-2.45': '55',
-      '-2.55': '54',
-      '-2.65': '53',
-      '-2.75': '52',
-      '-2.85': '51',
-      '-2.95': '50',
-      '-3.04': '49',
-      '-3.14': '48',
-      '-3.24': '47',
-      '-3.34': '46',
-      '-3.44': '45',
-      '-3.53': '44',
-      '-3.63': '43',
-      '-3.73': '42',
-      '-3.83': '41',
-      '-3.93': '40',
-      '-4.03': '39',
-      '-4.12': '38',
-      '-4.22': '37',
-      '-4.32': '36',
-      '-4.42': '35',
-      '-4.52': '34',
-      '-4.61': '33',
-      '-4.71': '32',
-      '-4.81': '31',
-      '-4.91': '30',
-      '-5.01': '29',
-      '-5.10': '28',
-      '-5.20': '27',
-      '-5.30': '26',
-      '-5.40': '25',
-      '-5.50': '24',
-      '-5.60': '23',
-      '-5.69': '22',
-      '-5.79': '21',
-      '-5.89': '20',
-      '-5.99': '19',
-      '-6.09': '18',
-      '-6.18': '17'
-    };
+    var mapLeft = [
+      { frame: 16, angle: 0.00 },
+      { frame: 15, angle: -0.10 },
+      { frame: 14, angle: -0.20 },
+      { frame: 13, angle: -0.29 },
+      { frame: 12, angle: -0.39 },
+      { frame: 11, angle: -0.49 },
+      { frame: 10, angle: -0.59 },
+      { frame: 9, angle: -0.69 },
+      { frame: 8, angle: -0.79 },
+      { frame: 7, angle: -0.88 },
+      { frame: 6, angle: -0.98 },
+      { frame: 5, angle: -1.08 },
+      { frame: 4, angle: -1.18 },
+      { frame: 3, angle: -1.28 },
+      { frame: 2, angle: -1.37 },
+      { frame: 1, angle: -1.47 },
+      { frame: 0, angle: -1.57 },
+      { frame: 63, angle: -1.67 },
+      { frame: 62, angle: -1.77 },
+      { frame: 61, angle: -1.87 },
+      { frame: 60, angle: -1.96 },
+      { frame: 59, angle: -2.06 },
+      { frame: 58, angle: -2.16 },
+      { frame: 57, angle: -2.26 },
+      { frame: 56, angle: -2.36 },
+      { frame: 55, angle: -2.45 },
+      { frame: 54, angle: -2.55 },
+      { frame: 53, angle: -2.65 },
+      { frame: 52, angle: -2.75 },
+      { frame: 51, angle: -2.85 },
+      { frame: 50, angle: -2.95 },
+      { frame: 49, angle: -3.04 },
+      { frame: 48, angle: -3.14 },
+      { frame: 47, angle: -3.24 },
+      { frame: 46, angle: -3.34 },
+      { frame: 45, angle: -3.44 },
+      { frame: 44, angle: -3.53 },
+      { frame: 43, angle: -3.63 },
+      { frame: 42, angle: -3.73 },
+      { frame: 41, angle: -3.83 },
+      { frame: 40, angle: -3.93 },
+      { frame: 39, angle: -4.03 },
+      { frame: 38, angle: -4.12 },
+      { frame: 37, angle: -4.22 },
+      { frame: 36, angle: -4.32 },
+      { frame: 35, angle: -4.42 },
+      { frame: 34, angle: -4.52 },
+      { frame: 33, angle: -4.61 },
+      { frame: 32, angle: -4.71 },
+      { frame: 31, angle: -4.81 },
+      { frame: 30, angle: -4.91 },
+      { frame: 29, angle: -5.01 },
+      { frame: 28, angle: -5.10 },
+      { frame: 27, angle: -5.20 },
+      { frame: 26, angle: -5.30 },
+      { frame: 25, angle: -5.40 },
+      { frame: 24, angle: -5.50 },
+      { frame: 23, angle: -5.60 },
+      { frame: 22, angle: -5.69 },
+      { frame: 21, angle: -5.79 },
+      { frame: 20, angle: -5.89 },
+      { frame: 19, angle: -5.99 },
+      { frame: 18, angle: -6.09 },
+      { frame: 17, angle: -6.18 }
+    ]
+    , mapRight = [
+      { frame: 16, angle: 0.00 },
+      { frame: 17, angle: 0.10 },
+      { frame: 18, angle: 0.20 },
+      { frame: 19, angle: 0.29 },
+      { frame: 20, angle: 0.39 },
+      { frame: 21, angle: 0.49 },
+      { frame: 22, angle: 0.59 },
+      { frame: 23, angle: 0.69 },
+      { frame: 24, angle: 0.79 },
+      { frame: 25, angle: 0.88 },
+      { frame: 26, angle: 0.98 },
+      { frame: 27, angle: 1.08 },
+      { frame: 28, angle: 1.18 },
+      { frame: 29, angle: 1.28 },
+      { frame: 30, angle: 1.37 },
+      { frame: 31, angle: 1.47 },
+      { frame: 32, angle: 1.57 },
+      { frame: 33, angle: 1.67 },
+      { frame: 34, angle: 1.77 },
+      { frame: 35, angle: 1.87 },
+      { frame: 36, angle: 1.96 },
+      { frame: 37, angle: 2.06 },
+      { frame: 38, angle: 2.16 },
+      { frame: 39, angle: 2.26 },
+      { frame: 40, angle: 2.36 },
+      { frame: 41, angle: 2.45 },
+      { frame: 42, angle: 2.55 },
+      { frame: 43, angle: 2.65 },
+      { frame: 44, angle: 2.75 },
+      { frame: 45, angle: 2.85 },
+      { frame: 46, angle: 2.95 },
+      { frame: 47, angle: 3.04 },
+      { frame: 48, angle: 3.14 },
+      { frame: 49, angle: 3.24 },
+      { frame: 50, angle: 3.34 },
+      { frame: 51, angle: 3.44 },
+      { frame: 52, angle: 3.53 },
+      { frame: 53, angle: 3.63 },
+      { frame: 54, angle: 3.73 },
+      { frame: 55, angle: 3.83 },
+      { frame: 56, angle: 3.93 },
+      { frame: 57, angle: 4.03 },
+      { frame: 58, angle: 4.12 },
+      { frame: 59, angle: 4.22 },
+      { frame: 60, angle: 4.32 },
+      { frame: 61, angle: 4.42 },
+      { frame: 62, angle: 4.52 },
+      { frame: 63, angle: 4.61 },
+      { frame: 0, angle: 4.71 },
+      { frame: 1, angle: 4.81 },
+      { frame: 2, angle: 4.91 },
+      { frame: 3, angle: 5.01 },
+      { frame: 4, angle: 5.10 },
+      { frame: 5, angle: 5.20 },
+      { frame: 6, angle: 5.30 },
+      { frame: 7, angle: 5.40 },
+      { frame: 8, angle: 5.50 },
+      { frame: 9, angle: 5.60 },
+      { frame: 10, angle: 5.69 },
+      { frame: 11, angle: 5.79 },
+      { frame: 12, angle: 5.89 },
+      { frame: 13, angle: 5.99 },
+      { frame: 14, angle: 6.09 },
+      { frame: 15, angle: 6.18 }
+    ];
+
+    function getIndex(map, frame) {
+      var mapEl = map.filter(function(item) {
+        return item.frame === frame;
+      })[0];
+
+      return map.indexOf(mapEl);
+    }
+
+    var index = 0
+      , currentAngle;
+
+    if (angle < 0) {
+
+      found = false;
+      while (!found) {
+        index = getIndex(mapLeft, sprite.currentFrame);
+        var current = mapLeft[index];
+        console.log('frame angle:', current.angle, 'heading to:', angle.toFixed(2), 'frame: ', sprite.currentFrame);
+
+        // console.log(current.angle, '>' , angle.toFixed(2), '<=', current.angle);
+        // debugger;
+        // if (current.angle > angle && angle <= current.angle) {
+        //   found = true;
+        // } else {
+        //   sprite.reverse();
+        // }
+      }
+    }
+
+
+
   }
 
   return {
